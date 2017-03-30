@@ -1,0 +1,3 @@
+GET   /build-info               $organisation_domain$.$organisation$.$name$.core.api.controllers.BuildInfoController.info()
+GET   /health                   $organisation_domain$.$organisation$.$name$.core.api.controllers.HealthCheckController.health()
+->    /                         $organisation_domain$.$organisation$.$name$.core.api.routers.BaseRouter
