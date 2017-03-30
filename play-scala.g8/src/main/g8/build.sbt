@@ -19,8 +19,8 @@ lazy val buildInfoSettings: Seq[Def.Setting[_]] = Seq(
     name,
     version,
     scalaVersion,
-    sbtVersion
-  //  BuildInfoKey.action("gitHash")(gitHash)
+    sbtVersion,
+    BuildInfoKey.action("gitHash")(gitHash)
   ),
   buildInfoPackage := "$organisation_domain$.$organisation$.$name$.build",
   buildInfoOptions += BuildInfoOption.ToJson
