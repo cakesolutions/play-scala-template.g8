@@ -1,0 +1,3 @@
+GET   /health                $organisation_domain$.$organisation$.$name$.core.api.controllers.HealthCheckController.health()
+GET   /version               $organisation_domain$.$organisation$.$name$.core.api.controllers.VersionController.info()
+->    /                      $organisation_domain$.$organisation$.$name$.core.api.routers.CoreRouter
