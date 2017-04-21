@@ -14,12 +14,6 @@ lazy val scoverageSettings = Seq(
   coverageExcludedPackages := """.*controllers\..*Reverse.*Controller;router.Routes.*;.*Module;.*DDBCircuitBreakerSource;.*ActivationController;com.mlbam.activation.metrics.*"""
 )
 
-/*
- * This creates an organization.BuildInfo object, which contains the specified
- * build-related metadata. Its values are accessible directly as fields, as
- * a Map, or as a Json string. The sourcecode is generated under
- * $PROJECT_PATH/target/scala-2.xx/src_managed.
- */
 lazy val buildInfoSettings: Seq[Def.Setting[_]] = Seq(
   buildInfoKeys := Seq[BuildInfoKey](
     name,
