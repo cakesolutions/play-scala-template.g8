@@ -35,7 +35,7 @@ object CakeBuildPlugin extends AutoPlugin {
     fork := true,
     cancelable := true,
     sourcesInBase := false,
-    javaOptions += s"-Dcake.sbt.root=${(baseDirectory in ThisBuild).value.getCanonicalFile}",
+    javaOptions += s"-Dcake.sbt.root=\${(baseDirectory in ThisBuild).value.getCanonicalFile}",
     // WORKAROUND https://github.com/dwijnand/sbt-dynver/issues/23
     version := {
       val v = version.value
@@ -65,14 +65,14 @@ object CakeBuildPlugin extends AutoPlugin {
       sys.env.get("SBT_VOLATILE_TARGET") match {
         case None => Nil
         case Some(base) =>
-          val tmpdir = s"$base/java.io.tmpdir"
+          val tmpdir = s"\$base/java.io.tmpdir"
           file(tmpdir).mkdirs()
-          s"-Djava.io.tmpdir=$tmpdir" :: Nil
+          s"-Djava.io.tmpdir=\$tmpdir" :: Nil
       }
     },
-    javaOptions += s"-Dcake.sbt.name=${name.value}",
+    javaOptions += s"-Dcake.sbt.name=\${name.value}",
     // prefer a per-application logback.xml in resources
-    // javaOptions in Compile += s"-Dlogback.configurationFile=${(baseDirectory in ThisBuild).value}/logback-main.xml",
+    // javaOptions in Compile += s"-Dlogback.configurationFile=\${(baseDirectory in ThisBuild).value}/logback-main.xml",
     javaOptions ++= JavaSpecificFlags ++ Seq("-Xss2m", "-Dfile.encoding=UTF8"),
     dependencyOverrides ++= Set(
       // scala-lang is always used during transitive ivy resolution (and potentially thrown out...)
@@ -86,7 +86,7 @@ object CakeBuildPlugin extends AutoPlugin {
       scalaOrganization.value % "scala-reflect"  % scalaVersion.value,
       scalaOrganization.value % "scalap"         % scalaVersion.value
     ),
-    buildInfoPackage := s"${organization.value}.${name.value}.build",
+    buildInfoPackage := s"\${organization.value}.\${name.value}.build",
     buildInfoKeys += BuildInfoKey.action("gitSha")(Try("git rev-parse --verify HEAD".!! dropRight 1) getOrElse "n/a"),
     buildInfoKeys += BuildInfoKey.action("builtAtString")(currentDateString()),
     buildInfoOptions += BuildInfoOption.BuildTime,
@@ -114,7 +114,7 @@ object CakeBuildKeys {
   def sensibleTestSettings = sensibleCrossPath ++ Seq(
     parallelExecution := true,
     javaOptions ~= (_.filterNot(_.startsWith("-Dlogback.configurationFile"))),
-    javaOptions += s"-Dlogback.configurationFile=${(baseDirectory in ThisBuild).value}/logback-${configuration.value}.xml",
+    javaOptions += s"-Dlogback.configurationFile=\${(baseDirectory in ThisBuild).value}/logback-\${configuration.value}.xml",
     testForkedParallel := true,
     testGrouping := {
       val opts = ForkOptions(
@@ -137,10 +137,10 @@ object CakeBuildKeys {
         val config = configuration.value
         val n      = name.value
         val count  = forkCount.incrementAndGet() // subject to task evaluation
-        val out    = { base / s"gc-$config-$n.log" }.getCanonicalPath
+        val out    = { base / s"gc-\$config-\$n.log" }.getCanonicalPath
         Seq(
           // https://github.com/fommil/lions-share
-          s"-Xloggc:$out",
+          s"-Xloggc:\$out",
           "-XX:+PrintGCDetails",
           "-XX:+PrintGCDateStamps",
           "-XX:+PrintTenuringDistribution",
@@ -163,7 +163,7 @@ object CakeBuildKeys {
       val dir = scalaSource.value
       val Some((major, minor)) =
         CrossVersion.partialVersion(scalaVersion.value)
-      file(s"${dir.getPath}-$major.$minor")
+      file(s"\${dir.getPath}-\$major.\$minor")
     }
   )
 

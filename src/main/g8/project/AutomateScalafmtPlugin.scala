@@ -36,7 +36,7 @@ object AutomateScalafmtPlugin extends AutoPlugin {
                   val files = in.modified -- in.removed
                   Analysis
                     .counted("Scala source", "", "s", files.size)
-                    .foreach(count => streams.value.log.info(s"$msg $count in $label ..."))
+                    .foreach(count => streams.value.log.info(s"\$msg \$count in \$label ..."))
                   handler(files)
                   files
                 }
