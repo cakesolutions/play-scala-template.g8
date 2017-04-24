@@ -10,7 +10,7 @@ val middle = project
 
 val app = (project in file("."))
   .enablePlugins(PlayScala, BuildInfoPlugin, DockerPlugin)
-  .disablePlugins(PlayLayoutPlugin)
+  .disablePlugins(PlayLayoutPlugin) // We like consistency so have opted for SBT style layout -> https://www.playframework.com/documentation/2.5.x/Anatomy 
   .settings(
     PlayKeys.playMonitoredFiles ++= (sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value,
     libraryDependencies ++= deps.AngularBootstrap,
