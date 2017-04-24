@@ -10,7 +10,6 @@ import sbt._
 import sbt.IO._
 import sbt.Keys._
 
-import sbtbuildinfo.BuildInfoPlugin, BuildInfoPlugin.autoImport._
 import scoverage.ScoverageKeys._
 
 /**
@@ -19,7 +18,7 @@ import scoverage.ScoverageKeys._
   * flags, parallelisation of tests, registering our repositories.
   */
 object CakeBuildPlugin extends AutoPlugin {
-  override def requires = sbtdynver.DynVerPlugin && BuildInfoPlugin
+  override def requires = sbtdynver.DynVerPlugin
   override def trigger  = allRequirements
 
   val autoImport = CakeBuildKeys
@@ -89,12 +88,6 @@ object CakeBuildPlugin extends AutoPlugin {
       scalaOrganization.value % "scala-reflect"  % scalaVersion.value,
       scalaOrganization.value % "scalap"         % scalaVersion.value
     ),
-    buildInfoPackage := s"\${organization.value}.\${name.value}.build",
-    buildInfoKeys += BuildInfoKey.action("gitSha")(Try("git rev-parse --verify HEAD".!! dropRight 1) getOrElse "n/a"),
-    buildInfoKeys += BuildInfoKey.action("builtAtString")(currentDateString()),
-    buildInfoOptions += BuildInfoOption.BuildTime,
-    buildInfoOptions += BuildInfoOption.ToJson,
-
     coverageMinimum := 80,
     coverageFailOnMinimum := true,
     coverageExcludedPackages := """.*controllers\..*Reverse.*Controller;router.Routes.*;.*Module;.*DDBCircuitBreakerSource;.*ActivationController"""
