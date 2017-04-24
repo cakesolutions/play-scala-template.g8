@@ -8,8 +8,8 @@ val middle = project
   )
 // TODO: add integration test example
 
-val app = project
-  .enablePlugins(PlayScala, DockerPlugin)
+val app = (project in file("."))
+  .enablePlugins(PlayScala, BuildInfoPlugin, DockerPlugin)
   .settings(
     libraryDependencies ++= deps.AngularBootstrap,
     // false positives in generated code

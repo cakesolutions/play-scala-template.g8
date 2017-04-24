@@ -16,9 +16,14 @@ object CakeBuildInfoPlugin extends AutoPlugin {
   override def trigger  = allRequirements
 
   override val projectSettings = Seq(
-    buildInfoPackage := s"\${organization.value}.\${name.value}.build",
-    buildInfoKeys += BuildInfoKey.action("gitSha")(Try("git rev-parse --verify HEAD".!! dropRight 1) getOrElse "n/a"),
-    buildInfoKeys += BuildInfoKey.action("builtAtString")(currentDateString()),
+    buildInfoKeys := Seq[BuildInfoKey](
+      BuildInfoKey.action("name")("$name$"),
+      version,
+      scalaVersion,
+      sbtVersion,
+      BuildInfoKey.action("lastCommitSha")(Try("git rev-parse --verify HEAD".!! dropRight 1) getOrElse "n/a")
+      ),
+    buildInfoPackage := s"$organisation_domain$.$organisation$.$name$.build",
     buildInfoOptions += BuildInfoOption.BuildTime,
     buildInfoOptions += BuildInfoOption.ToJson
   )
