@@ -4,11 +4,14 @@ package cake
 
 import java.util.concurrent.atomic.AtomicLong
 
-import scala.util.Properties
+import scala.util._
 
 import sbt._
 import sbt.IO._
 import sbt.Keys._
+
+import sbtbuildinfo.BuildInfoPlugin, BuildInfoPlugin.autoImport._
+import scoverage.ScoverageKeys._
 
 /**
   * Common plugin that sets up common variables and build settings such
@@ -16,7 +19,7 @@ import sbt.Keys._
   * flags, parallelisation of tests, registering our repositories.
   */
 object CakeBuildPlugin extends AutoPlugin {
-  override def requires = sbtdynver.DynVerPlugin
+  override def requires = sbtdynver.DynVerPlugin && BuildInfoPlugin
   override def trigger  = allRequirements
 
   val autoImport = CakeBuildKeys
@@ -90,8 +93,7 @@ object CakeBuildPlugin extends AutoPlugin {
     buildInfoKeys += BuildInfoKey.action("gitSha")(Try("git rev-parse --verify HEAD".!! dropRight 1) getOrElse "n/a"),
     buildInfoKeys += BuildInfoKey.action("builtAtString")(currentDateString()),
     buildInfoOptions += BuildInfoOption.BuildTime,
-    buildInfoOptions += BuildInfoOption.ToJson
-
+    buildInfoOptions += BuildInfoOption.ToJson,
 
     coverageMinimum := 80,
     coverageFailOnMinimum := true,
