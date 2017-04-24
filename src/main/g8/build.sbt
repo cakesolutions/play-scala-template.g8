@@ -10,7 +10,9 @@ val middle = project
 
 val app = (project in file("."))
   .enablePlugins(PlayScala, BuildInfoPlugin, DockerPlugin)
+  .disablePlugins(PlayLayoutPlugin)
   .settings(
+    PlayKeys.playMonitoredFiles ++= (sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value,
     libraryDependencies ++= deps.AngularBootstrap,
     // false positives in generated code
     scalacOptions -= "-Ywarn-unused-import",
