@@ -1,0 +1,25 @@
+<configuration>
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+  <appender name="file" class="ch.qos.logback.core.FileAppender">
+    <file>${cake.sbt.root}/${cake.sbt.name}-test.log</file>
+    <if condition='isNull("CI")'>
+      <then>
+        <append>false</append>
+      </then>
+      <else>
+        <append>true</append>
+      </else>
+    </if>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %-5level %X{akkaSource} %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="file" />
+  </root>
+
+  <logger name="akka" level="DEBUG" />
+
+</configuration>
