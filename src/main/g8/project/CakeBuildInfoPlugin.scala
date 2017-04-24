@@ -22,15 +22,10 @@ object CakeBuildInfoPlugin extends AutoPlugin {
       scalaVersion,
       sbtVersion,
       BuildInfoKey.action("lastCommitSha")(Try("git rev-parse --verify HEAD".!! dropRight 1) getOrElse "n/a")
-      ),
-    buildInfoPackage := s"$organisation_domain$.$organisation$.$name$.build",
+    ),
+    buildInfoPackage := s"\${organization.value}.\${(name in ThisBuild).value}.build",
     buildInfoOptions += BuildInfoOption.BuildTime,
     buildInfoOptions += BuildInfoOption.ToJson
   )
 
-  private def currentDateString() = {
-    val dtf = new java.text.SimpleDateFormat("yyyy-MM-dd")
-    dtf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"))
-    dtf.format(new java.util.Date())
-  }
 }
