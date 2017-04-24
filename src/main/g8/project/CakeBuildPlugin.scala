@@ -95,12 +95,6 @@ object CakeBuildPlugin extends AutoPlugin {
     sensibleCrossPath
   )
 
-  private def currentDateString() = {
-    val dtf = new java.text.SimpleDateFormat("yyyy-MM-dd")
-    dtf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"))
-    dtf.format(new java.util.Date())
-  }
-
 }
 
 object CakeBuildKeys {
