@@ -9,12 +9,9 @@ val middle = project
 // TODO: add integration test example
 
 val app = (project in file("."))
-  .enablePlugins(PlayScala, BuildInfoPlugin, DockerPlugin)
-  .disablePlugins(PlayLayoutPlugin) // We like consistency so have opted for SBT style layout -> https://www.playframework.com/documentation/2.5.x/Anatomy 
+  .enablePlay
+  .enablePlugins(BuildInfoPlugin, DockerPlugin)
   .settings(
-    PlayKeys.playMonitoredFiles ++= (sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value,
     libraryDependencies ++= deps.AngularBootstrap,
-    // false positives in generated code
-    scalacOptions -= "-Ywarn-unused-import",
     pipelineStages := Seq(digest, gzip)
   )

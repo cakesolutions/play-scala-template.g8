@@ -121,6 +121,23 @@ object CakePlatformKeys {
       ) ++ logback.map(_      % config)
   }
 
+  implicit class PlayOps(p: Project) {
+    import play.sbt._
+    import PlayImport.PlayKeys
+    import play.twirl.sbt.Import.TwirlKeys
+
+    // for consistency we prefer default SBT style layout
+    // https://www.playframework.com/documentation/2.5.x/Anatomy
+    def enablePlay: Project =
+      p.enablePlugins(PlayScala)
+        .disablePlugins(PlayLayoutPlugin)
+        .settings(
+          // false positives in generated code
+          scalacOptions -= "-Ywarn-unused-import",
+          PlayKeys.playMonitoredFiles ++= (sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value
+        )
+  }
+
 }
 
 object CakePlatformPlugin extends AutoPlugin {
