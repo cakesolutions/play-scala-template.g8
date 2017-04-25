@@ -90,6 +90,7 @@ object CakeBuildPlugin extends AutoPlugin {
     ),
     coverageMinimum := 80,
     coverageFailOnMinimum := true,
+    coverageExcludedFiles := ".*/target/.*",
     coverageExcludedPackages := """.*controllers\..*Reverse.*Controller;router.Routes.*;.*Module;.*DDBCircuitBreakerSource;.*ActivationController"""
   ) ++ inConfig(Test)(sensibleTestSettings) ++ inConfig(Compile)(
     sensibleCrossPath
