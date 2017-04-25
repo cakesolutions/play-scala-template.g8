@@ -1,5 +1,3 @@
-// Copyright 2015 - 2016 Sam Halliday (derived from sbt-sensible)
-// License: http://www.apache.org/licenses/LICENSE-2.0
 package cake
 
 import scala.util._
@@ -17,7 +15,7 @@ object CakeBuildInfoPlugin extends AutoPlugin {
 
   override val projectSettings = Seq(
     buildInfoKeys := Seq[BuildInfoKey](
-      BuildInfoKey.action("name")("$name$"),
+      name in ThisBuild,
       version,
       scalaVersion,
       sbtVersion,
