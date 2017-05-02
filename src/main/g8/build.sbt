@@ -1,5 +1,5 @@
 val middle = project
-  .enablePlugins(JavaServerAppPackaging, DockerPlugin)
+  .enablePlugins(JavaServerAppPackaging, DockerPlugin, AshScriptPlugin)
   .settings(
     mainClass in Compile := Some(s"\${organization.value}.\${name.value}.Server"),
     libraryDependencies ++= Seq(
@@ -10,7 +10,7 @@ val middle = project
 
 val app = (project in file("."))
   .enablePlay
-  .enablePlugins(BuildInfoPlugin, DockerPlugin)
+  .enablePlugins(JavaAppPackaging, BuildInfoPlugin, DockerPlugin, AshScriptPlugin)
   .settings(
     libraryDependencies ++= deps.AngularBootstrap,
     pipelineStages := Seq(digest, gzip)
