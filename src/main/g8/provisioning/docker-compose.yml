@@ -1,1 +1,15 @@
 # Docker Compose template
+
+version: "2.1"
+
+services:
+  # The name of the service is the same as the val declaration in build.sbt
+  # This value will need to be modified to suit the name of the application
+  app:
+    image: app:latest
+    environment:
+      # FIXME Please change this before going to production
+      APPLICATION_SECRET: change_me
+    ports:
+      # The netty server that Play! uses is configured to port 9000
+      - "9000:9000"

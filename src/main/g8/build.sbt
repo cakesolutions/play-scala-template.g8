@@ -10,8 +10,8 @@ val middle = project
 
 val app = (project in file("."))
   .enablePlay
-  .enablePlugins(BuildInfoPlugin, DockerPlugin)
+  .enablePlugins(BuildInfoPlugin, DockerPlugin, AshScriptPlugin)
   .settings(
-    libraryDependencies ++= deps.AngularBootstrap,
+    // libraryDependencies ++= deps.AngularBootstrap,
     pipelineStages := Seq(digest, gzip)
   )
