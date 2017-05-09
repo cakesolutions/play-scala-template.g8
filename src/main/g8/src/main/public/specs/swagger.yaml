@@ -26,7 +26,7 @@ paths:
                 type: string
   
 
-  /build-info:
+  /version:
     get:
       summary: Get the build info of the current instance of the play application
       produces:

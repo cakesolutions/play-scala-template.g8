@@ -17,7 +17,7 @@ class CoreRouter @Inject()(
   override def routes: Routes = {
     // Base Routes
     case GET(p"/health") => healthCheckController.health
-    case GET(p"/build-info") => buildInfoController.info
+    case GET(p"/version") => buildInfoController.info
 
     // Swagger Documentation and Specification routes
     case GET(p"/swagger.yaml") =>
