@@ -1,9 +1,14 @@
+import net.cakesolutions.CakePlatformPlugin
+
 import sbt._
 import sbt.Keys._
 
+import scoverage.ScoverageKeys._
+import wartremover._
+
 /** Example of how to apply settings across a build (difficult to do in build.sbt) */
 object ProjectPlugin extends AutoPlugin {
-  override def requires = cake.CakePlatformPlugin
+  override def requires = CakePlatformPlugin
   override def trigger  = allRequirements
 
   val autoImport = ProjectPluginKeys
