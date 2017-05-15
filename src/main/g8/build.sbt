@@ -21,7 +21,11 @@ val server = project
 val app = project
   .enablePlay
   .enablePlugins(BuildInfoPlugin, DockerPlugin, AshScriptPlugin)
+  .enableIntegrationTests
   .settings(
-    libraryDependencies ++= deps.AngularBootstrap,
+    libraryDependencies ++= Seq(
+      "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.0" % "it,test",
+      ws % "it,test" // Play webserver client library
+    ) ++ deps.AngularBootstrap,
     pipelineStages := Seq(digest, gzip)
   )
