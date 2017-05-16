@@ -25,5 +25,5 @@ This template will be an evolving opinion, PRs are welcome.
 To test the output of the template you can run it locally with the following command
 
 ```
-g8 file://./play-scala-template.g8 --force
+sbt new file://./play-scala-template.g8
 ```
