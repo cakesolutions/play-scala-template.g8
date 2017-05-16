@@ -6,7 +6,7 @@ import $organisation_domain$.$organisation$.$name$.build.BuildInfo
 import play.api.mvc._
 
 @Singleton
-class VersionController extends Controller {
+class BuildInfoController extends Controller {
 
   def info = Action {
     Ok(BuildInfo.toJson)
