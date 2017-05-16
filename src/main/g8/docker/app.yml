@@ -1,0 +1,7 @@
+version: "2.1"
+
+services:
+  app:
+    extends:
+      service: app-base
+      file: base.yml

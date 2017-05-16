@@ -1,0 +1,12 @@
+version: "2.1"
+
+services:
+  app-base:
+    image: app
+    environment:
+      APPLICATION_SECRET: change_me
+    ports:
+      - "9000:9000"
+      # The netty server that Play! uses is configured to port 9000
+
+    
