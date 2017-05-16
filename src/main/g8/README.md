@@ -4,13 +4,6 @@
 
 ***
 
-Before writing any code in this repository be sure to read the documentation in the [docs](./doc) directory, this provides guidelines and how to configure the local development environment and how to contribute to the appliction.
-
-Guides to developing code on this project can be found here:
-
-[Contributions](./doc/contribution.md)
-
-[Local Development](./doc/localDevelopment.md)
 
 
 ## API Documenation
@@ -47,14 +40,14 @@ We investigated [sbt-docker-compose](https://github.com/Tapad/sbt-docker-compose
 To start the container, needed by our integration tests, make sure to run `proj/dockerComposeUp` before :
 
 ```
-sbt> $name$/dockerComposeUp
-sbt> $name$/it:test
+sbt> app/dockerComposeUp
+sbt> app/it:test
 ```
 
 To stop the container:
 
 ```
-sbt> $name$/dockerComposeDown
+sbt> app/dockerComposeDown
 ```
 
 You can also run raw `dockerComposeUp` or `dockerComposeDown` to start/stop all the containers.
