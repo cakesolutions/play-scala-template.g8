@@ -32,7 +32,9 @@ object ProjectPlugin extends AutoPlugin {
       version,
       scalaVersion,
       sbtVersion
-    )
+    ),
+    // NOTE: This avoids using resources to create a POM file.  We don't need it.
+    publishArtifact in makePom := false
   )
 
 }

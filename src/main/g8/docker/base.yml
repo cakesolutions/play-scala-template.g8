@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   app-base:
-    image: app
+    image: app/app
     environment:
       APPLICATION_SECRET: change_me
     ports:
