@@ -7,13 +7,12 @@ import scala.concurrent.ExecutionContext
 
 object Docker extends Tag("Docker")
 
-class $name$IntegrationTest @Inject() extends RestApiIntegrationTest {
-  implicit val ec: ExecutionContext = ExecutionContext.global
+class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationTest {
   "Health-check" - {
     "(when application is running)" - {
       "should always return status okay" taggedAs (Docker) in {
         wsClient
-          .url("http://localhost:9000/health")
+          .url(s"\$targetUrl/health")
           .get()
           .map(res => {
             res.status shouldEqual 200
@@ -21,7 +20,7 @@ class $name$IntegrationTest @Inject() extends RestApiIntegrationTest {
       }
       "should return a JSON object with property status set to Ok" taggedAs (Docker) in {
         wsClient
-          .url("http://localhost:9000/health")
+          .url(s"\$targetUrl/health")
           .get()
           .map(res => {
             (res.json \ "status").as[String] shouldEqual "Ok"
