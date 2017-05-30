@@ -15,7 +15,7 @@ pipeline {
               try {
                 sh "sbt app/dockerComposeUp"
                 def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
-                withEnv(["TARGET_HOST=$dockerip"]) {
+                withEnv(["APP_HOST=$dockerip"]) {
                   sh "sbt app/test app/it:test"
                 }
               } finally {

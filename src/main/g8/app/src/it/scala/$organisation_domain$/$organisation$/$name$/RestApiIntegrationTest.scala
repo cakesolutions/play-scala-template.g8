@@ -10,9 +10,11 @@ import scala.concurrent.ExecutionContext
 trait RestApiIntegrationTest extends AsyncFreeSpec with Matchers {
 
   protected val config = ConfigFactory.load()
-  protected val targetUrl = {
-    val target = config.getConfig("services.target")
-    s"\${target.getString("scheme")}://\${target.getString("host")}:\${target.getInt("port")}"
+  protected val appUrl = {
+    val scheme = config.getString("services.app.scheme")
+    val host  = config.getString("services.app.host")
+    val port  = config.getInt("services.app.port")
+    s"\$scheme://\$host:\$port"
   }
   implicit val actorSystem: ActorSystem = ActorSystem()
   implicit val materializer: ActorMaterializer = ActorMaterializer()

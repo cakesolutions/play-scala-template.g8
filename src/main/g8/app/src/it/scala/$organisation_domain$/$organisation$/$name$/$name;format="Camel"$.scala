@@ -12,7 +12,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
     "(when application is running)" - {
       "should always return status okay" taggedAs (Docker) in {
         wsClient
-          .url(s"\$targetUrl/health")
+          .url(s"\$appUrl/health")
           .get()
           .map(res => {
             res.status shouldEqual 200
@@ -20,7 +20,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       }
       "should return a JSON object with property status set to Ok" taggedAs (Docker) in {
         wsClient
-          .url(s"\$targetUrl/health")
+          .url(s"\$appUrl/health")
           .get()
           .map(res => {
             (res.json \ "status").as[String] shouldEqual "Ok"
