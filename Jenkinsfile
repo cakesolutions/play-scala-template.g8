@@ -19,7 +19,7 @@ pipeline {
                   sh "sbt app/test app/it:test"
                 }
               } finally {
-                sh "sbt app/dockerComposeDown"
+                sh "sbt app/dockerComposeDown app/dockerRemove"
               }
             }
           }
