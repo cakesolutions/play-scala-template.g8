@@ -9,14 +9,14 @@ import play.api.routing.sird._
 
 @Singleton
 class CoreRouter @Inject()(
-    healthCheckController: HealthCheckController,
-    buildInfoController: BuildInfoController,
-    assets: controllers.Assets)
-  extends SimpleRouter {
+  healthCheckController: HealthCheckController,
+  buildInfoController: BuildInfoController,
+  assets: controllers.Assets
+) extends SimpleRouter {
 
   override def routes: Routes = {
     // Base Routes
-    case GET(p"/health") => healthCheckController.health
+    case GET(p"/health")  => healthCheckController.health
     case GET(p"/version") => buildInfoController.info
 
     // Swagger Documentation and Specification routes

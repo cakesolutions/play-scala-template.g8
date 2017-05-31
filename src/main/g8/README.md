@@ -1,4 +1,4 @@
-# $name;format="Camel"$
+# $name$
 
 ## $project_description$
 

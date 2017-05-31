@@ -2,8 +2,8 @@ package $organisation_domain$.$organisation$.$name$.core.api.controllers
 
 import javax.inject.Singleton
 
-import play.api.libs.json.{JsString, Json}
-import play.api.mvc.{Action, Controller}
+import play.api.libs.json.{ JsString, Json }
+import play.api.mvc.{ Action, Controller }
 
 @Singleton
 class HealthCheckController extends Controller {
