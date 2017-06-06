@@ -1,0 +1,64 @@
+swagger: '2.0'
+info:
+  version: 1.0
+  title: $name$
+  description: |
+    This specification specifies the $name$ API.
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /version:
+    get:
+      tags:
+        - "metadata"
+      summary: Application version
+      description: |
+        Shows the current version of the application along with some build information
+      produces:
+        - application/json
+      responses:
+        200:
+          description: |
+            Normal response with the build information
+          schema:
+            \$ref: "#/definitions/BuildInfo"
+  /health:
+    get:
+      tags:
+        - "metadata"
+      summary: Application status
+      description: Returns the application status
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Normal response
+          schema:
+            \$ref: "#/definitions/Status"
+definitions:
+  Status:
+    type: object
+    properties:
+      status:
+        type: string
+  BuildInfo:
+    type: object
+    properties:
+      builtAtString:
+        type: string
+      builtAtMillis:
+        type: string
+      name:
+        type: string
+      scalaVersion:
+        type: string
+      version:
+        type: string
+      sbtVersion:
+        type: string

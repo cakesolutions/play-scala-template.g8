@@ -9,7 +9,7 @@ import play.api.mvc._
 class BuildInfoController extends Controller {
 
   def info = Action {
-    Ok(BuildInfo.toJson)
+    Ok(BuildInfo.toJson).as("application/json")
   }
 
 }

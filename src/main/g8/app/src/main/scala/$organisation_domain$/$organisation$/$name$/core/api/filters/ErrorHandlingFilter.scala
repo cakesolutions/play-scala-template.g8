@@ -7,12 +7,12 @@ import play.api.Logger
 import play.api.mvc._
 import play.api.mvc.Results._
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
 class ErrorHandlingFilter @Inject()(
-  implicit ec: ExecutionContext,
-  val mat: Materializer
+    implicit ec: ExecutionContext,
+    val mat: Materializer
 ) extends Filter {
 
   private val logger = Logger(getClass.getName)

@@ -3,7 +3,7 @@ pipeline {
     label 'sbt-slave'
   }
   stages {
-    stage('Deploy') {
+    stage('Generate template') {
       steps {
         ansiColor('xterm') {
           script {
@@ -13,12 +13,23 @@ pipeline {
         }
       }
     }
+    stage('Compile') {
+      steps {
+        ansiColor('xterm') {
+          dir("playrepo") {
+            script {
+              sh "sbt compile"
+            }
+          }
+        }
+      }
+    }
     stage('Test') {
       steps {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              sh "sbt scalafmt::test app/test"
+              sh "sbt coverage test coverageReport"
             }
           }
         }
@@ -30,13 +41,13 @@ pipeline {
           dir("playrepo") {
             script {
               try {
-                sh "sbt app/dockerComposeUp"
+                sh "sbt dockerComposeUp"
                 def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
                 withEnv(["APP_HOST=$dockerip"]) {
-                  sh "sbt app/it:test"
+                  sh "sbt it:test"
                 }
               } finally {
-                sh "sbt app/dockerComposeDown app/dockerRemove"
+                sh "sbt dockerComposeDown dockerRemove"
               }
             }
           }

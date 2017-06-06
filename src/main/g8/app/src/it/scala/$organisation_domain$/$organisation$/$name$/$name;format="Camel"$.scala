@@ -8,22 +8,54 @@ import scala.concurrent.ExecutionContext
 object Docker extends Tag("Docker")
 
 class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationTest {
-  "Health-check" - {
-    "(when application is running)" - {
+  "When application is running" - {
+    "Health-check" - {
       "should always return status okay" taggedAs (Docker) in {
         wsClient
           .url(s"\$appUrl/health")
           .get()
           .map(res => {
             res.status shouldEqual 200
+            (res.json \ "status").as[String] shouldEqual "Ok"
           })
       }
-      "should return a JSON object with property status set to Ok" taggedAs (Docker) in {
+    }
+    "Build info" - {
+      "should return a JSON object with current version" taggedAs (Docker) in {
         wsClient
-          .url(s"\$appUrl/health")
+          .url(s"\$appUrl/version")
           .get()
           .map(res => {
-            (res.json \ "status").as[String] shouldEqual "Ok"
+            res.status shouldEqual 200
+            (res.json \ "version").as[String] should not be empty
+          })
+      }
+    }
+    "OpenAPI specs" - {
+      "should return the yaml specs" taggedAs (Docker) in {
+        wsClient
+          .url(s"\$appUrl/specs.yml")
+          .get
+          .map(res => {
+            res.status shouldEqual 200
+          })
+      }
+      "should redirect to the API docs" taggedAs (Docker) in {
+        wsClient
+          .url(s"\$appUrl/specs")
+          .withFollowRedirects(false)
+          .get()
+          .map(res => {
+            res.status shouldEqual 303
+            res.header("Location").get shouldEqual "/specs/index.html?url=/specs.yml"
+          })
+      }
+      "should show the API docs" taggedAs (Docker) in {
+        wsClient
+          .url(s"\$appUrl/specs?url=/specs.yml")
+          .get()
+          .map(res => {
+            res.status shouldEqual 200
           })
       }
     }
