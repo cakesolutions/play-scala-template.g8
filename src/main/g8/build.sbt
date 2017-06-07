@@ -6,8 +6,7 @@
 //       Cake projects, otherwise just add dependencies explicitly
 //       in this file.
 
-// example play app
-val app = project
+val play = project
   .enablePlay
   .enablePlugins(BuildInfoPlugin, DockerPlugin, AshScriptPlugin)
   .enableIntegrationTests
@@ -15,7 +14,12 @@ val app = project
     libraryDependencies ++= Seq(
       "org.webjars"            %  "swagger-ui"         % "3.0.10",
       "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % "it,test",
-      ws % "it,test" // Play webserver client library
-    ) ++ deps.AngularBootstrap,
-    pipelineStages := Seq(digest, gzip)
+      ws % "it,test" // Play WebServer client library
+    )
   )
+
+// run the WebApp as default
+addCommandAlias("run", "play/run")
+
+// integration Tests require Docker fleet.
+addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown")

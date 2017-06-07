@@ -1,2 +1,0 @@
-# NOTE: All route definitions now live in $organisation_domain$.$organisation$.$name$.core.api.routers._
-->    /                      $organisation_domain$.$organisation$.$name$.core.api.routers.CoreRouter
