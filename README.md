@@ -4,10 +4,9 @@ This [giter8](https://github.com/foundweekends/giter8) template is designed to b
 
 We believe that we should try and have uniformity as much as we can across our applications and believe that this is the place where we have the conversation as to what should and should not be standardised on. Once we come to an agreement it should be added to the template.
 
-
 ## Using the Template
 
-To use, ensure you have SBT 0.13.13 or higher, or g8
+To use, ensure you have SBT 0.13.13 or higher
 
 Then:
 
