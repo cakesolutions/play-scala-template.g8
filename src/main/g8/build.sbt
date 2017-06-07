@@ -8,7 +8,7 @@
 
 // example standalone server project
 val server = project
-  .enablePlugins(JavaServerAppPackaging, DockerPlugin)
+  .enablePlugins(JavaServerAppPackaging, BuildInfoPlugin, DockerPlugin)
   .enableIntegrationTests
   .settings(
     mainClass in Compile := Some(s"\${organization.value}.\${name.value}.Server"),
