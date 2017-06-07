@@ -49,3 +49,41 @@ As a rule of thumb:
 * Snapshots should only be installed into *Dev* environments. They should not be deployed to *Qa* or *Prod* environments
 * Release candidate should be installed in the dedicated *Qa* environments. In an emergency, a release candidate may be installed into a *Prod* environment
 * A release can be installed anywhere - and they are the only kind of build that should be installed into the *Prod* environment
+
+## Git tags
+
+The version is managed with git tags and [dynver](https://github.com/dwijnand/sbt-dynver). Dynver uses git tags to compute the full version
+
+### Examples
+
+`version in ThisBuild` and `isSnapshot in ThisBuild` will be automatically set to:
+
+```
+| Case                                                                 | version                        | isSnapshot |
+| -------------------------------------------------------------------- | ------------------------------ | ---------- |
+| when on tag v1.0.0, w/o local changes                                | 1.0.0                          | false      |
+| when on tag v1.0.0 with local changes                                | 1.0.0-20140707-1030            | true       |
+| when on tag v1.0.0 +3 commits, on commit 1234abcd, w/o local changes | 1.0.0-3-1234abcd               | false      |
+| when on tag v1.0.0 +3 commits, on commit 1234abcd with local changes | 1.0.0-3-1234abcd-20140707-1030 | true       |
+| when there are no tags, on commit 1234abcd, w/o local changes        | 1234abcd                       | true       |
+| when there are no tags, on commit 1234abcd with local changes        | 1234abcd-20140707-1030         | true       |
+| when there are no commits, or the project isn't a git repo           | HEAD-20140707-1030             | true       |
+```
+
+### Tag Requirements
+
+In order to be recognized by sbt-dynver, tags must begin with the lowercase letter 'v' followed by a digit.
+
+If you're not seeing what you expect, then start with this:
+
+    git tag -a v0.0.1 -m "Initial version tag for sbt-dynver"
+    git push origin v0.0.1
+
+### The process
+
+* Everything is driven by git tags, thus we need an initial tag as `vX.Y.Z`
+* When a PR is merged into master, Jenkins automatically does the build and cuts artifacts (i.e. Docker images)
+* Version is calculated as per table above
+* If a new version number is required (i.e. `1.1.0`), then a new git tag `v1.1.0` needs to be created against git commit SHA
+* Jenkins build can be triggered manually to cut new version
+* Deployment to dev happens automatically at the end of Jenkins build, deployment to higher envs (qa, prod) is triggered manually

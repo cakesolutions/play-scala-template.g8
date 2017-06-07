@@ -2,7 +2,6 @@
 
 ## $project_description$
 
-***
 
 Before writing any code in this repository be sure to read the documentation in the [docs](./doc) directory, this provides guidelines and how to configure the local development environment and how to contribute to the appliction.
 
@@ -12,12 +11,22 @@ Guides to developing code on this project can be found here:
 
 [Local Development](./doc/localDevelopment.md)
 
-
 ## API Documenation
 
-The Api's are documented with swagger and are served on at [`/docs/api`](htpp://localhost:9000/docs/api/).
+The Api's are documented with swagger and are served on at [`/docs`](http://localhost:9000/docs/).
 
 Swagger docs are generated from reading the annotations in the controllers and it these should be kept up to date during support and enhancement of the application.
+
+## The build system
+
+See the following info for building the app.
+
+```bash
+> sbt compile
+> sbt test
+> sbt integrationTest
+> sbt it:test
+```
 
 ## Code Coverage
 
@@ -37,3 +46,13 @@ To generate the coverage report:
 #### Note:
 
 `coverage` command is sticky in a `sbt` session, use `coverageOff` to turn it off.
+
+## Running the App
+
+To start the Play app locally run the following and open a browser [here](http://localhost:9000)
+
+```bash
+> sbt run
+```
+
+

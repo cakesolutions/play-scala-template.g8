@@ -6,22 +6,20 @@
 //       Cake projects, otherwise just add dependencies explicitly
 //       in this file.
 
-// example standalone server project
-val server = project
-  .enablePlugins(JavaServerAppPackaging, BuildInfoPlugin, DockerPlugin)
-  .enableIntegrationTests
-  .settings(
-    mainClass in Compile := Some(s"\${organization.value}.\${name.value}.Server"),
-    libraryDependencies ++= Seq(
-      "com.typesafe.play" %% "play" % versions.play // for Play's ActorFlow.actorRef function
-    ) ++ deps.AkkaPersistence ++ deps.AkkaCluster ++ deps.KafkaClient ++ deps.AkkaHttp
-  )
-
-// example play app
-val app = project
+val play = project
   .enablePlay
   .enablePlugins(BuildInfoPlugin, DockerPlugin, AshScriptPlugin)
+  .enableIntegrationTests
   .settings(
-    libraryDependencies ++= deps.AngularBootstrap,
-    pipelineStages := Seq(digest, gzip)
+    libraryDependencies ++= Seq(
+      "org.webjars"            %  "swagger-ui"         % "3.0.10",
+      "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % "it,test",
+      ws % "it,test" // Play WebServer client library
+    )
   )
+
+// run the WebApp as default
+addCommandAlias("run", "play/run")
+
+// integration Tests require Docker fleet.
+addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown")

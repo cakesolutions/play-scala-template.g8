@@ -1,1 +1,43 @@
 # Default pipeline should go here.
+pipeline {
+  agent {
+    label 'sbt-slave'
+  }
+  stages {
+    stage('Compile') {
+      steps {
+        ansiColor('xterm') {
+          script {
+            sh "sbt compile"
+          }
+        }
+      }
+    }
+    stage('Test') {
+      steps {
+        ansiColor('xterm') {
+          script {
+            sh "sbt coverage test coverageReport"
+          }
+        }
+      }
+    }
+    stage('IntegrationTest') {
+      steps {
+        ansiColor('xterm') {
+          script {
+            try {
+              sh "sbt dockerComposeUp"
+              def dockerip = sh(returnStdout: true, script:  \$/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/\$).trim()
+              withEnv(["APP_HOST=\$dockerip"]) {
+                sh "sbt integrationTests"
+              }
+            } finally {
+              sh "sbt dockerComposeDown dockerRemove"
+            }
+          }
+        }
+      }
+    }
+  }
+}

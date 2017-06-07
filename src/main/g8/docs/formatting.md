@@ -19,13 +19,14 @@ A few things to note about `sbt-scalafmt`:
 ### Setup IDE (Intellij)
 
 #### Scalafmt
+
 Install `scalafmt` plugin, it will read `.scalafmt.conf` automatically
 
 It could be set to triggered on save in `Preferences > Tools > scalafmt`
 
 #### Ensure end of line at end of file
-Set `Preferences > Editor > General > Others > Ensure line feed at file end on save` to true
 
+Set `Preferences > Editor > General > Others > Ensure line feed at file end on save` to true
 
 ### Formatting choices :
 
@@ -49,7 +50,6 @@ style = defaultWithAlign
 This packages several alignment parameters : mixed traits, arrows in
 for-comprehensions, `=` in assignments ...
 
-
 #### Dangling parenthesis
 
 ```
@@ -60,13 +60,11 @@ Line will break before the last parenthesis of a multi-line function call or
 definition:
 
 ```scala
-
 def function(
   param1 : Int,
   param2 : String,
   param3 : Boolean
 )
-
 ```
 
 #### Indentation
@@ -85,7 +83,6 @@ Spray framework (and Akka HTTP)
 
 An indent of 2 spaces is enforced when defining or calling a function that would
 require multiple lines.
-
 
 #### Breaking lines between function calls
 
@@ -121,7 +118,6 @@ project.git = true
 
 This will constrain scalafmt to take only the files tracked by git into account,
 therefore leaving the generated code aside.
-
 
 ### Overriding behaviour
 
