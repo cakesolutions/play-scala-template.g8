@@ -51,7 +51,8 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       }
       "should show the API docs" taggedAs (Docker) in {
         wsClient
-          .get(s"\$appUrl/docs?url=/specs.yml")
+          .url(s"\$appUrl/docs?url=/specs.yml")
+          .get()
           .map(res => {
             res.status shouldEqual 200
           })
