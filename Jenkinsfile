@@ -30,6 +30,7 @@ pipeline {
           dir("playrepo") {
             script {
               sh "sbt coverage test coverageReport"
+              junit '**/test-reports/*.xml'
             }
           }
         }
@@ -45,6 +46,7 @@ pipeline {
                 def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
                 withEnv(["APP_HOST=$dockerip"]) {
                   sh "sbt it:test"
+                  junit '**/test-reports/*.xml'
                 }
               } finally {
                 sh "sbt dockerComposeDown dockerRemove"
