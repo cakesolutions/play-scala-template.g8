@@ -61,7 +61,7 @@ To start the Play app locally run the following and open a browser [here](http:/
 - It is added as a [sbt plugin](http://gatling.io/docs/current/extensions/sbt_plugin/).
 - A simple example for testing endpoints are adapted from [play-scala-rest-api-example](https://github.com/playframework/play-scala-rest-api-example) repo.
 - Performance code is a separate project and depends on play project.
-- To run gatling tests you need your app is running already. From another terminal use following command;
+- You need to run the app before running the Gatling tests. So, while the app is running, open another terminal and run the following command:
 ```scala
 > sbt gatling:test
 ```
