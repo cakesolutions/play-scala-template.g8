@@ -1,8 +1,16 @@
 pipeline {
+
+  environment {
+    CI = 'true'
+    AWS_DEFAULT_REGION = 'eu-west-2'
+  }
+
   agent {
     label 'sbt-slave'
   }
+
   stages {
+
     stage('Generate template') {
       steps {
         ansiColor('xterm') {
@@ -13,17 +21,19 @@ pipeline {
         }
       }
     }
+
     stage('Compile') {
       steps {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              sh "sbt compile"
+              sh "sbt clean compile doc"
             }
           }
         }
       }
     }
+
     stage('Test') {
       steps {
         ansiColor('xterm') {
@@ -36,13 +46,14 @@ pipeline {
         }
       }
     }
+
     stage('IntegrationTest') {
       steps {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
               try {
-                sh "sbt dockerComposeUp"
+                sh "sbt coverageOff dockerComposeUp"
                 def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
                 withEnv(["APP_HOST=$dockerip"]) {
                   sh "sbt it:test"
