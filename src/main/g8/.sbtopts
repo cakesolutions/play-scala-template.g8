@@ -4,4 +4,4 @@
 -J-Xmx2G
 -J-XX:ReservedCodeCacheSize=256M
 -Dsbt.override.build.repos=true
--Dsbt.repository.config=sbt.repositories
+-Dsbt.repository.config=repositories

@@ -1,7 +1,0 @@
-[repositories]
-  local
-  maven-central
-  remote-ivy-releases: https://nexus.cakesolutions.eu/repository/maven-group/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
-  remote-maven-releases: https://nexus.cakesolutions.eu/repository/maven-group/
-  typesafe-ivy-releases: https://nexus.cakesolutions.eu/repository/typesafe/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
-  typesafe-maven-releases: https://nexus.cakesolutions.eu/repository/typesafe/
