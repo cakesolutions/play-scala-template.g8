@@ -32,3 +32,6 @@ addCommandAlias("run", "play/run")
 
 // integration Tests require Docker fleet.
 addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown")
+
+// performance Tests require Docker fleet.
+addCommandAlias("performanceTests", ";dockerComposeUp;gatling:test;dockerComposeDown;dockerRemove")
