@@ -20,3 +20,6 @@ val play = project
 
 // run the WebApp as default
 addCommandAlias("run", "play/run")
+
+// integration Tests require Docker fleet.
+addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown;dockerRemove")

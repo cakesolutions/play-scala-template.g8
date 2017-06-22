@@ -2,7 +2,6 @@ pipeline {
 
   environment {
     CI = 'true'
-    AWS_DEFAULT_REGION = 'eu-west-2'
   }
 
   agent {
@@ -52,15 +51,10 @@ pipeline {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              try {
-                sh "sbt coverageOff dockerComposeUp"
-                def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
-                withEnv(["APP_HOST=$dockerip"]) {
-                  sh "sbt it:test"
-                  junit '**/test-reports/*.xml'
-                }
-              } finally {
-                sh "sbt dockerComposeDown dockerRemove"
+              def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
+              withEnv(["APP_HOST=$dockerip"]) {
+                sh "sbt integrationTests"
+                junit '**/test-reports/*.xml'
               }
             }
           }
