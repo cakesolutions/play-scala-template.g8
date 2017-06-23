@@ -18,7 +18,7 @@ pipeline {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              sh "sbt clean compile"
+              sh "sbt compile"
             }
           }
         }
