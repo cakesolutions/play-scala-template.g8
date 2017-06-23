@@ -1,8 +1,15 @@
 pipeline {
+
+  environment {
+    CI = 'true'
+  }
+
   agent {
     label 'sbt-slave'
   }
+
   stages {
+
     stage('Generate template') {
       steps {
         ansiColor('xterm') {
@@ -13,17 +20,19 @@ pipeline {
         }
       }
     }
+
     stage('Compile') {
       steps {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              sh "sbt compile"
+              sh "sbt clean compile doc"
             }
           }
         }
       }
     }
+
     stage('Test') {
       steps {
         ansiColor('xterm') {
@@ -36,45 +45,37 @@ pipeline {
         }
       }
     }
+
     stage('IntegrationTest') {
       steps {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              try {
-                sh "sbt dockerComposeUp"
-                def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
-                withEnv(["APP_HOST=$dockerip"]) {
-                  sh "sbt it:test"
-                  junit '**/test-reports/*.xml'
-                }
-              } finally {
-                sh "sbt dockerComposeDown dockerRemove"
+              def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
+              withEnv(["APP_HOST=$dockerip"]) {
+                sh "sbt integrationTests"
+                junit '**/test-reports/*.xml'
               }
             }
           }
         }
       }
     }
+
     stage('PerformanceTest') {
-          steps {
-            ansiColor('xterm') {
-              dir("playrepo") {
-                script {
-                  try {
-                    sh "sbt dockerComposeUp"
-                    def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
-                    withEnv(["APP_HOST=$dockerip"]) {
-                      sh "sbt performanceTests"
-                      junit '**/test-reports/*.xml'
-                    }
-                  } finally {
-                    sh "sbt dockerComposeDown dockerRemove"
-                  }
-                }
+      steps {
+        ansiColor('xterm') {
+          dir("playrepo") {
+            script {
+              def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
+              withEnv(["APP_HOST=$dockerip"]) {
+                sh "sbt performanceTests"
+                junit '**/test-reports/*.xml'
               }
             }
           }
         }
+      }
+    }
   }
 }
