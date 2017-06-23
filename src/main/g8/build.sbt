@@ -22,4 +22,5 @@ val play = project
 addCommandAlias("run", "play/run")
 
 // integration Tests require Docker fleet.
-addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown")
+// TODO: after CO-103 is done at sbt-cake, change here.
+addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown;dockerRemove")
