@@ -35,4 +35,5 @@ addCommandAlias("run", "play/run")
 addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown;dockerRemove")
 
 // performance Tests require Docker fleet.
+// TODO: after CO-103 is done at sbt-cake, change here.
 addCommandAlias("performanceTests", ";dockerComposeUp;gatling:test;dockerComposeDown;dockerRemove")
