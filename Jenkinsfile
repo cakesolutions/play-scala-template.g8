@@ -16,6 +16,8 @@ pipeline {
           script {
             sh "mkdir template.g8; mv src template.g8/"
             sh "sbt new file://./template.g8 --name=playrepo --project_description=ci-test --organisation_domain=net --organisation=cakesolutions"
+            def checkDirectory = sh(returnStdout: true, script: "if [ -d ./playrepo/play/src/main/scala/net/cakesolutions/playrepo ]; then echo 'OK'; else echo 'NOK'; fi").trim()
+            if (checkDirectory == 'NOK') error("Template parameters can not be applied correctly!")
           }
         }
       }
