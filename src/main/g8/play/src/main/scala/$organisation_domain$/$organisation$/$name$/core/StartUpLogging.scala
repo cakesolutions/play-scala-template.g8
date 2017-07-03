@@ -32,14 +32,14 @@ class StartUpLogging @Inject() (config: Configuration, @Named("startUpLogging") 
     val heap = ManagementFactory.getMemoryMXBean.getHeapMemoryUsage
     val nonHeap = ManagementFactory.getMemoryMXBean.getNonHeapMemoryUsage
 
-    log.info(s"java.lang.memory.heap: committed=\${pprintBytes(heap.getCommitted)}")
-    log.info(s"java.lang.memory.heap: initial=\${pprintBytes(heap.getInit)}")
-    log.info(s"java.lang.memory.heap: maximum=\${pprintBytes(heap.getMax)}")
-    log.info(s"java.lang.memory.heap: used=\${pprintBytes(heap.getUsed)}")
-    log.info(s"java.lang.memory.non-heap: committed=\${pprintBytes(nonHeap.getCommitted)}")
-    log.info(s"java.lang.memory.non-heap: initial=\${pprintBytes(nonHeap.getInit)}")
-    log.info(s"java.lang.memory.non-heap: maximum=\${pprintBytes(nonHeap.getMax)}")
-    log.info(s"java.lang.memory.non-heap: used=\${pprintBytes(nonHeap.getUsed)}")
+    log.info(s"java.lang.memory.heap: committed=\${prettyPrintBytes(heap.getCommitted)}")
+    log.info(s"java.lang.memory.heap: initial=\${prettyPrintBytes(heap.getInit)}")
+    log.info(s"java.lang.memory.heap: maximum=\${prettyPrintBytes(heap.getMax)}")
+    log.info(s"java.lang.memory.heap: used=\${prettyPrintBytes(heap.getUsed)}")
+    log.info(s"java.lang.memory.non-heap: committed=\${prettyPrintBytes(nonHeap.getCommitted)}")
+    log.info(s"java.lang.memory.non-heap: initial=\${prettyPrintBytes(nonHeap.getInit)}")
+    log.info(s"java.lang.memory.non-heap: maximum=\${prettyPrintBytes(nonHeap.getMax)}")
+    log.info(s"java.lang.memory.non-heap: used=\${prettyPrintBytes(nonHeap.getUsed)}")
     log.info(s"runtime: available-processors=\${Runtime.getRuntime.availableProcessors()}")
   }
 
@@ -58,7 +58,7 @@ class StartUpLogging @Inject() (config: Configuration, @Named("startUpLogging") 
   }
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  private def pprintBytes(byteValue: Long): String = {
+  private def prettyPrintBytes(byteValue: Long): String = {
     val unit = 1000
     if (byteValue < 0) {
       "undefined"
