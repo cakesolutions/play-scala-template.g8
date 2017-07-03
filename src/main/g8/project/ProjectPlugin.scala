@@ -1,15 +1,15 @@
-import net.cakesolutions.CakePlatformPlugin
+import net.cakesolutions.{CakePlatformPlugin, CakeBuildInfoPlugin}
 
 import sbt._
 import sbt.Keys._
 
 import scoverage.ScoverageKeys._
 import wartremover._
-import sbtbuildinfo.BuildInfoPlugin, BuildInfoPlugin.autoImport._
 
 /** Example of how to apply settings across a build (difficult to do in build.sbt) */
 object ProjectPlugin extends AutoPlugin {
-  override def requires = CakePlatformPlugin
+
+  override def requires = CakePlatformPlugin && CakeBuildInfoPlugin
   override def trigger  = allRequirements
 
   val autoImport = ProjectPluginKeys
@@ -25,14 +25,7 @@ object ProjectPlugin extends AutoPlugin {
   override val projectSettings = Seq(
     // TODO (sbt-cake#8) When that is done, we can remove it from here
     scalacOptions ++= Seq("-Ypartial-unification"),
-    // we have multiple microservices in this project
-    buildInfoPackage := s"$organisation_domain$.$organisation$.$name$.build",
-    buildInfoKeys := Seq[BuildInfoKey](
-      name,
-      version,
-      scalaVersion,
-      sbtVersion
-    ),
+
     // NOTE: This avoids using resources to create a POM file.  We don't need it.
     publishArtifact in makePom := false
   )

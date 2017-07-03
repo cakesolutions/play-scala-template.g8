@@ -1,0 +1,8 @@
+*.class
+*.log
+
+# sbt specific
+.cache
+.history
+dist/*
+target/
