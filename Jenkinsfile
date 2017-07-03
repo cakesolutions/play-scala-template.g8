@@ -63,5 +63,21 @@ pipeline {
         }
       }
     }
+
+    stage('PerformanceTest') {
+      steps {
+        ansiColor('xterm') {
+          dir("playrepo") {
+            script {
+              def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
+              withEnv(["APP_HOST=$dockerip"]) {
+                sh "sbt performanceTests"
+                junit '**/test-reports/*.xml'
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

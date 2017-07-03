@@ -6,7 +6,16 @@
 //       Cake projects, otherwise just add dependencies explicitly
 //       in this file.
 
-val play = project
+lazy val perf = (project in file("perf"))
+  .enablePlugins(GatlingPlugin)
+  .settings(
+    libraryDependencies ++= Seq(
+      "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.5" % "test",
+      "io.gatling"            % "gatling-test-framework"    % "2.2.5" % "test"
+    )
+  ).dependsOn(play % "test->compile")
+
+lazy val play = project
   .enablePlay
   .enablePlugins(BuildInfoPlugin, DockerPlugin, AshScriptPlugin)
   .enableIntegrationTests
@@ -24,3 +33,7 @@ addCommandAlias("run", "play/run")
 // integration Tests require Docker fleet.
 // TODO: after CO-103 is done at sbt-cake, change here.
 addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown;dockerRemove")
+
+// performance Tests require Docker fleet.
+// TODO: after CO-103 is done at sbt-cake, change here.
+addCommandAlias("performanceTests", ";dockerComposeUp;gatling:test;dockerComposeDown;dockerRemove")
