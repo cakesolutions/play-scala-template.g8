@@ -18,3 +18,9 @@ services:
       APPLICATION_SECRET: change_me
     ports:
       - "9000:9000"
+    networks:
+      - external
+
+networks:
+  external:
+  internal:
