@@ -4,8 +4,3 @@
 # - Use this file as follows:
 #   docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml up
 version: "2.1"
-
-services:
-  play:
-    ports:
-      - "9000:9000"
