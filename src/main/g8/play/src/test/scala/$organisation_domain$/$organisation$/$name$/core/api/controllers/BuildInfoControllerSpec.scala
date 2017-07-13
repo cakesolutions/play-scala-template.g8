@@ -12,7 +12,7 @@ class BuildInfoControllerSpec extends PlaySpec {
   "BuildInfoController" should {
     "return the build info" in {
       val request = FakeRequest("GET", "/version")
-      val result  = controller.info.apply(request)
+      val result = controller.info.apply(request)
       status(result) mustBe Status.OK
     }
   }

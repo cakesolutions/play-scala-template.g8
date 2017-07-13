@@ -1,9 +1,0 @@
-version: "2.1"
-
-services:
-  $name$-base:
-    image: $name$/play
-    environment:
-      APPLICATION_SECRET: change_me
-    ports:
-      - "9000:9000"

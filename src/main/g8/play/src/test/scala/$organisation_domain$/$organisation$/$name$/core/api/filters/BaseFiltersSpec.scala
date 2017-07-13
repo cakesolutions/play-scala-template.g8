@@ -7,13 +7,16 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Action
 import play.api.routing.sird._
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{ GET => GET_METHOD, _}
+import play.api.test.Helpers.{GET => GET_METHOD, _}
 
 class BaseFiltersSpec extends PlaySpec {
 
   val application =
     GuiceApplicationBuilder()
-      .configure("play.http.filters" -> "$organisation_domain$.$organisation$.$name$.core.api.filters.BaseFilters")
+      .configure(
+        "play.http.filters" ->
+          "test_net.test_cakesolutions.playrepo.core.api.filters.BaseFilters"
+      )
       .routes({
         case ("GET", "/failure") =>
           Action(_ => throw new RuntimeException("Server error"))

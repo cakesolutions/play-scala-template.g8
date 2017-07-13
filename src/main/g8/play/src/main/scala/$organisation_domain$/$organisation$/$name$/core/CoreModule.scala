@@ -2,7 +2,7 @@ package $organisation_domain$.$organisation$.$name$.core
 
 import com.google.inject.AbstractModule
 import com.google.inject.name.Names
-import play.api.{ LoggerLike, Logger }
+import play.api.{Logger, LoggerLike}
 
 class CoreModule extends AbstractModule {
 

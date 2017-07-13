@@ -1,15 +1,40 @@
 pipeline {
-
   agent {
     label 'sbt-slave'
   }
 
+  environment {
+    // Ensure that build scripts recognise the environment they are running within
+    CI = 'jenkins'
+  }
+
   stages {
+    steps {
+      stage('Environment') {
+        ansiColor('xterm') {
+          script {
+            sh "sbt checkExternalBuildTools"
+          }
+        }
+      }
+    }
+
     stage('Compile') {
       steps {
         ansiColor('xterm') {
           script {
-            sh "sbt clean compile doc"
+            sh "sbt clean compile test:compile it:compile doc"
+          }
+        }
+      }
+    }
+
+    stage('Verification') {
+      steps {
+        ansiColor('xterm') {
+          script {
+            // TODO: CO-???: enable sbt-header for integration tests
+            sh "sbt headerCheck test:headerCheck scalastyle test:scalastyle it:scalastyle sbt:scalafmt::test scalafmt::test test:scalafmt::test it:scalafmt::test"
           }
         }
       }
@@ -19,7 +44,10 @@ pipeline {
       steps {
         ansiColor('xterm') {
           script {
-            sh "sbt coverage test coverageReport"
+            // Ensure that coverage reporting doesn't fail when generating reports
+            // - the report aggregation step will generate necessary failures!
+            sh "sbt coverage test 'set coverageMinimum := 0' coverageReport"
+            sh "sbt coverageAggregate"
             junit '**/test-reports/*.xml'
           }
         }
@@ -30,14 +58,17 @@ pipeline {
       steps {
         ansiColor('xterm') {
           script {
+            // In CI environments, we use the eth0 or local-ipv4 address of the slave
+            // instead of localhost
+            // TODO: CO-???: ensure coverage is enabled for it:test
             try {
+              sh "sbt coverageOff dockerComposeUp"
               def dockerip = sh(returnStdout: true, script:  \$/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/\$).trim()
-              withEnv(["APP_HOST=\$dockerip"]) {
-                sh "sbt integrationTests"
-                junit '**/test-reports/*.xml'
+              withEnv(["CI_HOST=\$dockerip"]) {
+                sh "sbt it:test"
               }
-            } catch(err) {
-              error("You should check docker ip address: \${err}")
+            } finally {
+              sh "sbt dockerComposeDown"
             }
           }
         }
@@ -48,9 +79,12 @@ pipeline {
       steps {
         ansiColor('xterm') {
           script {
+            // In CI environments, we use the eth0 or local-ipv4 address of the slave
+            // instead of localhost
+            // TODO: CO-???: ensure coverage is enabled for it:test
             try {
               def dockerip = sh(returnStdout: true, script:  \$/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/\$).trim()
-              withEnv(["APP_HOST=\$dockerip"]) {
+              withEnv(["CI_HOST=\$dockerip"]) {
                 sh "sbt performanceTests"
                 junit '**/test-reports/*.xml'
               }
@@ -58,6 +92,14 @@ pipeline {
               error("You should check docker ip address: \${err}")
             }
           }
+        }
+      }
+    }
+
+    stage('Publish') {
+      steps {
+        ansiColor('xterm') {
+          sh "sbt createRelease"
         }
       }
     }

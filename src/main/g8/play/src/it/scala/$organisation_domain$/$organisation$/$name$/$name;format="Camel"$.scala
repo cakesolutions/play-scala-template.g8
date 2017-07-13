@@ -1,8 +1,9 @@
 package $organisation_domain$.$organisation$.$name$
 
+import scala.concurrent.ExecutionContext
+
 import com.google.inject.Inject
 import org.scalatest.Tag
-import scala.concurrent.ExecutionContext
 
 object Docker extends Tag("Docker")
 
@@ -46,7 +47,9 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
           .get()
           .map(res => {
             res.status shouldEqual 303
-            res.header("Location").get shouldEqual "/docs/index.html?url=/specs.yml"
+            res
+              .header("Location")
+              .get shouldEqual "/docs/index.html?url=/specs.yml"
           })
       }
       "should show the API docs" taggedAs (Docker) in {
@@ -59,12 +62,12 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       }
       "default route should re-direct to API docs" taggedAs (Docker) in {
         wsClient
-        .url(s"\$appUrl/")
-        .withFollowRedirects(false)
-        .get()
-        .map(res => {
-          res.status shouldEqual 303
-        })
+          .url(s"\$appUrl/")
+          .withFollowRedirects(false)
+          .get()
+          .map(res => {
+            res.status shouldEqual 303
+          })
       }
     }
   }

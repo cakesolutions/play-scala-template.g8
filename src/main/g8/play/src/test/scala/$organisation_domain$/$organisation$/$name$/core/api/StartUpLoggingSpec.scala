@@ -2,14 +2,11 @@ package $organisation_domain$.$organisation$.$name$.core.api
 
 import org.scalatestplus.play.PlaySpec
 import org.slf4j.LoggerFactory
-import play.api.{ LoggerLike, Play }
-import play.api.http.Status
+import play.api.{LoggerLike, Play}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.mvc.Action
-import play.api.routing.sird._
-import play.api.test.FakeRequest
-import play.api.test.Helpers.{ GET => GET_METHOD, _}
+
+import $organisation_domain$.$organisation$.$name$.core.utils.ValueDiscard
 
 class StartUpLoggingSpec extends PlaySpec {
 
@@ -19,25 +16,33 @@ class StartUpLoggingSpec extends PlaySpec {
 
     override def info(message: => String): Unit = {
       logged.append(message)
-      logged.append(System.lineSeparator())
+      ValueDiscard[StringBuilder] {
+        logged.append(System.lineSeparator())
+      }
     }
 
     override def info(message: => String, error: => Throwable): Unit = {
       logged.append(message)
       logged.append(System.lineSeparator())
       logged.append(error.toString)
-      logged.append(System.lineSeparator())
+      ValueDiscard[StringBuilder] {
+        logged.append(System.lineSeparator())
+      }
     }
   }
 
   val application =
     GuiceApplicationBuilder()
-      .overrides(bind[LoggerLike].qualifiedWith("startUpLogging").toInstance(StringLogger))
+      .overrides(
+        bind[LoggerLike]
+          .qualifiedWith("startUpLogging")
+          .toInstance(StringLogger)
+      )
       .build()
   Play.start(application)
 
   "Application" should {
-    "log environtment/runtime information on startup" in {
+    "log environment/runtime information on startup" in {
 
       val expectedParameters = Seq(
         "java.lang.memory.heap: initial=",

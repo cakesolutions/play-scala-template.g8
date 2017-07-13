@@ -1,0 +1,11 @@
+# Docker Compose overlay file to enable remote container debugging using IntelliJ
+# - Use this file as follows:
+#   docker-compose -f docker/docker-compose.yml -f docker/docker-compose-debug.yml up
+version: "2.1"
+
+services:
+  play:
+    environment:
+      JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+    ports:
+      - "5005:5005"
