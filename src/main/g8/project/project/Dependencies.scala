@@ -4,9 +4,9 @@ import sbt._
 
 object Dependencies {
   val cats: ModuleID = "org.typelevel" %% "cats" % "0.9.0"
-  val config: ModuleID = "com.typesafe" % "config" % "1.3.1"
   val playScalatest: ModuleID =
     "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0"
+  val typesafeConfig: ModuleID = "com.typesafe" % "config" % "1.3.1"
   val validatedConfig: ModuleID =
     "net.cakesolutions" %% "validated-config" % "1.0.2"
   val webjars: ModuleID = "org.webjars" % "swagger-ui" % "3.0.10"

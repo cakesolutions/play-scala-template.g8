@@ -34,9 +34,9 @@ object ValidatedServerConfig {
     implicit config: Config
   ): Validated[NEL[ValueFailure], ServerConfig] = {
     via[ServerConfig]("services.app") { implicit config =>
-        (unchecked[String](required("host", "NOT_SET")) |@|
-          unchecked[PositiveInt](required("port", "NOT_SET")))
-          .map(new ServerConfig(_, _) {})
+      (unchecked[String](required("host", "NOT_SET")) |@|
+        unchecked[PositiveInt](required("port", "NOT_SET")))
+        .map(new ServerConfig(_, _) {})
     }
   }
 }
