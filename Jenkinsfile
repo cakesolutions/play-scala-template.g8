@@ -25,7 +25,7 @@ pipeline {
     stage('Environment') {
       steps {
         ansiColor('xterm') {
-          dir("akkarepo") {
+          dir("playrepo") {
             script {
               sh "sbt checkExternalBuildTools"
             }
@@ -49,7 +49,7 @@ pipeline {
     stage('Verification') {
       steps {
         ansiColor('xterm') {
-          dir("akkarepo") {
+          dir("playrepo") {
             script {
               // Since copyright headers are not set up for test projects, we omit headerCheck, test:headerCheck and it:headerCheck here
               sh "sbt scalastyle test:scalastyle it:scalastyle sbt:scalafmt::test scalafmt::test test:scalafmt::test it:scalafmt::test"
@@ -75,7 +75,7 @@ pipeline {
     stage('IntegrationTest') {
       steps {
         ansiColor('xterm') {
-          dir("akkarepo") {
+          dir("playrepo") {
             script {
               // In CI environments, we use the eth0 or local-ipv4 address of the slave
               // instead of localhost
