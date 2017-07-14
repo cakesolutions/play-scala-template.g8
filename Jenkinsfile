@@ -5,7 +5,9 @@ pipeline {
 
   environment {
     // Ensure that build scripts recognise the environment they are running within
-    CI = 'true'
+    CI = 'jenkins'
+    def randomIdentifier = sh(returnStdout: true, script: "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1").trim()
+    DOCKER_COMPOSE_PROJECT_NAME = randomIdentifier
   }
 
   stages {
@@ -82,7 +84,9 @@ pipeline {
               try {
                 sh "docker images"
                 sh "docker ps -a"
-                sh "sbt dockerComposeUp"
+                // FIXME: following is a quick hack to test out validity of test isolation
+                sh "docker-compose -p $DOCKER_COMPOSE_PROJECT_NAME -f docker/docker-compose.yml -f docker/docker-compose-testing.yml up -d"
+                // sh "sbt dockerComposeUp"
                 def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
                 withEnv(["CI_HOST=$dockerip"]) {
                   sh "sbt it:test"
