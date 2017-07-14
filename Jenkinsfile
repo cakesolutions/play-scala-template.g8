@@ -77,7 +77,7 @@ pipeline {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              sh "sbt dockerComposeDown"
+              sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml down --rmi all --volumes --remove-orphans"
               sh "docker images"
               sh "docker ps -a"
               // In CI environments, we use the eth0 or local-ipv4 address of the slave
