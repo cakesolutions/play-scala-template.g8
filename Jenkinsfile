@@ -6,8 +6,8 @@ pipeline {
   environment {
     // Ensure that build scripts recognise the environment they are running within
     CI = 'jenkins'
-    def randomIdentifier = sh(returnStdout: true, script: "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1").trim()
-    DOCKER_COMPOSE_PROJECT_NAME = randomIdentifier
+    //def randomIdentifier = sh(returnStdout: true, script: "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1").trim()
+    DOCKER_COMPOSE_PROJECT_NAME = 'thing' //randomIdentifier
   }
 
   stages {
