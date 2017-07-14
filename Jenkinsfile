@@ -76,17 +76,6 @@ pipeline {
       }
     }
 
-    stage('Docker Publish Locally') {
-      steps {
-        ansiColor('xterm') {
-          dir("playrepo") {
-            // We explicitly publish to ensure that Docker containers are fresh
-            sh "sbt docker:publishLocal"
-          }
-        }
-      }
-    }
-
     stage('IntegrationTest') {
       steps {
         ansiColor('xterm') {
@@ -101,7 +90,8 @@ pipeline {
                   sh "sbt it:test"
                 }
               } finally {
-                sh "sbt dockerComposeDown"
+                // FIXME: replace with `sbt dockerComposeDown` when sbt-cake is next released
+                sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml down --rmi all --volumes --remove-orphans"
               }
             }
           }
@@ -120,10 +110,11 @@ pipeline {
                 sh "sbt dockerComposeUp"
                 def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
                 withEnv(["CI_HOST=$dockerip"]) {
-                  sh "sbt performanceTests"
+                  sh "sbt gatling:test"
                 }
               } finally {
-                sh "sbt dockerComposeDown"
+                // FIXME: replace with `sbt dockerComposeDown` when sbt-cake is next released
+                sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml down --rmi all --volumes --remove-orphans"
               }
             }
           }

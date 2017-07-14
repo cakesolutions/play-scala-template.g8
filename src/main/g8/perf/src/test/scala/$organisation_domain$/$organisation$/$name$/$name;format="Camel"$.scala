@@ -7,6 +7,7 @@ import com.typesafe.config.Config
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
+import io.gatling.http.protocol.HttpProtocolBuilder
 
 import $organisation_domain$.$organisation$.$name$.core.config.ConfigHelper._
 import $organisation_domain$.$organisation$.$name$.core.config.ValidatedServerConfig
@@ -56,7 +57,7 @@ class $name;format="Camel"$PerformanceTest extends Simulation {
     s"\$scheme://\$host:\$port"
   }
 
-  val httpConf: String = http.baseURL(s"\$appUrl/health")
+  val httpConf: HttpProtocolBuilder = http.baseURL(s"\$appUrl/health")
 
   val readClients = scenario("Clients").exec(Index.refreshManyTimes)
 

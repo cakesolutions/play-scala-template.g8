@@ -22,19 +22,19 @@ lazy val play = project
     )
   )
 
-//lazy val perf = (project in file("perf"))
-//  .enablePlugins(ProjectPlugin, GatlingPlugin)
-//  .settings(
-//    libraryDependencies ++= Seq(
-//      cats,
-//      GatlingDependencies.highcharts % "test",
-//      GatlingDependencies.testkit % "test",
-//      Refined.core,
-//      typesafeConfig,
-//      validatedConfig
-//    )
-//  )
-//  .dependsOn(play % "test->compile;test->it")
+lazy val perf = (project in file("perf"))
+  .enablePlugins(ProjectPlugin, GatlingPlugin)
+  .settings(
+    libraryDependencies ++= Seq(
+      cats,
+      GatlingDependencies.highcharts % "test",
+      GatlingDependencies.testkit % "test",
+      Refined.core,
+      typesafeConfig,
+      validatedConfig
+    )
+  )
+  .dependsOn(play % "test->compile;test->it")
 
 // run the WebApp as default
 addCommandAlias("run", "play/run")
