@@ -36,7 +36,7 @@ pipeline {
       steps {
         ansiColor('xterm') {
           script {
-            // TODO: CO-???: enable sbt-header for integration tests
+            // TODO: CO-167: enable sbt-header for integration tests
             sh "sbt headerCheck test:headerCheck scalastyle test:scalastyle it:scalastyle sbt:scalafmt::test scalafmt::test test:scalafmt::test it:scalafmt::test"
           }
         }
@@ -63,12 +63,11 @@ pipeline {
           script {
             // In CI environments, we use the eth0 or local-ipv4 address of the slave
             // instead of localhost
-            // TODO: CO-???: ensure coverage is enabled for it:test
             try {
-              sh "sbt dockerComposeUp"
+              sh "sbt coverageOff dockerComposeUp"
               def dockerip = sh(returnStdout: true, script:  \$/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/\$).trim()
               withEnv(["CI_HOST=\$dockerip"]) {
-                sh "sbt it:test"
+                sh "sbt coverageOn it:test"
               }
             } finally {
               sh "sbt dockerComposeDown"
@@ -84,7 +83,6 @@ pipeline {
           script {
             // In CI environments, we use the eth0 or local-ipv4 address of the slave
             // instead of localhost
-            // TODO: CO-???: ensure coverage is enabled for it:test
             try {
               sh "sbt coverageOff dockerComposeUp"
               def dockerip = sh(returnStdout: true, script:  \$/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/\$).trim()
