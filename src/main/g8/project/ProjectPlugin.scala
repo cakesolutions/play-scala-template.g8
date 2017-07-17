@@ -38,20 +38,20 @@ object ProjectPlugin extends AutoPlugin {
     autoAPIMappings in Global := true,
     // scalastyle:off magic.number
     // FIXME: The following should be tailored to match project requirements
-    startYear in Global := Some(2017),
+    startYear := Some(2017),
     // scalastyle:on magic.number
     // FIXME: The following should be tailored to match project requirements
-    licenses in Global :=
+    licenses :=
       Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     // FIXME: The following should be tailored to match project requirements
-    headerLicense in Global := Some(
+    headerLicense := Some(
       HeaderLicense.Custom(
         """|Copyright: 2017 https://github.com/cakesolutions/play-scala-template.g8/graphs
            |License: http://www.apache.org/licenses/LICENSE-2.0
            |""".stripMargin
       )
     ),
-    headerMappings in Global :=
+    headerMappings :=
       headerMappings.value ++
         Map(
           FileType("sbt") -> HeaderCommentStyle.CppStyleLineComment,
