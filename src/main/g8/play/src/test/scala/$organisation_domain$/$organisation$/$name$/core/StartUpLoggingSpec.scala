@@ -1,4 +1,4 @@
-package $organisation_domain$.$organisation$.$name$.core.api
+package $organisation_domain$.$organisation$.$name$.core
 
 import org.scalatestplus.play.PlaySpec
 import org.slf4j.LoggerFactory
