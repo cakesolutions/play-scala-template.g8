@@ -28,8 +28,7 @@ pipeline {
           dir("playrepo") {
             script {
               sh "sbt checkExternalBuildTools"
-              // FIXME: replace with `sbt dockerComposeDown` when sbt-cake is next released
-              sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml down --rmi all --volumes --remove-orphans"
+              sh "sbt dockerComposeDown"
               sh "docker images"
               sh "docker ps -a"
             }
@@ -90,8 +89,7 @@ pipeline {
                   sh "sbt it:test"
                 }
               } finally {
-                // FIXME: replace with `sbt dockerComposeDown` when sbt-cake is next released
-                sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml down --rmi all --volumes --remove-orphans"
+                sh "sbt dockerComposeDown"
               }
             }
           }
@@ -113,8 +111,7 @@ pipeline {
                   sh "sbt gatling:test"
                 }
               } finally {
-                // FIXME: replace with `sbt dockerComposeDown` when sbt-cake is next released
-                sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml down --rmi all --volumes --remove-orphans"
+                sh "sbt dockerComposeDown"
               }
             }
           }
