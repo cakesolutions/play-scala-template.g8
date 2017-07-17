@@ -11,23 +11,23 @@ import eu.timepit.refined.numeric._
 import eu.timepit.refined.string._
 
 /**
-  * TODO:
+  * Validated server configuration settings helper and utilities.
   */
 object ValidatedServerConfig {
   type PositiveInt = Int Refined Positive
 
   /**
-    * TODO:
+    * Validated configuration settings for the server.
     *
-    * @param host
-    * @param port
+    * @param host hostname the Play server will listen on
+    * @param port port the Play server will listen on
     */
   sealed abstract case class ServerConfig(host: String, port: PositiveInt)
 
   /**
-    * TODO:
+    * Factory method for creating validated instances of ServerConfig.
     *
-    * @return
+    * @return validated configuration object or the validation failures
     */
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
   def apply(

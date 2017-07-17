@@ -2,6 +2,9 @@ package $organisation_domain$.$organisation$
 
 import sbt._
 
+/**
+  * Dependencies referenced in project auto-plugin and build code
+  */
 object Dependencies {
   val cats: ModuleID = "org.typelevel" %% "cats" % "0.9.0"
   val playScalatest: ModuleID =

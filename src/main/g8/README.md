@@ -2,8 +2,8 @@
 
 ## $project_description$
 
-
-Before writing any code in this repository be sure to read the documentation in the [docs](./doc) directory, this provides guidelines and how to configure the local development environment and how to contribute to the appliction.
+Before writing any code in this repository be sure to read the documentation in the [docs](./doc) directory, this
+provides guidelines and how to configure the local development environment and how to contribute to the appliction.
 
 Guides to developing code on this project can be found here:
 
@@ -15,7 +15,8 @@ Guides to developing code on this project can be found here:
 
 The Api's are documented with swagger and are served on at [`/docs`](http://localhost:9000/docs/).
 
-Swagger docs are generated from reading the annotations in the controllers and it these should be kept up to date during support and enhancement of the application.
+Swagger docs are generated from reading the annotations in the controllers and it these should be kept up to date during
+support and enhancement of the application.
 
 ## The build system
 
@@ -59,15 +60,15 @@ To start the Play app locally run the following and open a browser [here](http:/
 
 - [Gatling Performance Testing Tool](http://gatling.io/) is chosen as the load testing tool for the project.
 - It is added as a [sbt plugin](http://gatling.io/docs/current/extensions/sbt_plugin/).
-- A simple example for testing endpoints are adapted from [play-scala-rest-api-example](https://github.com/playframework/play-scala-rest-api-example) repo.
+- A simple example for testing endpoints are adapted from
+  [play-scala-rest-api-example](https://github.com/playframework/play-scala-rest-api-example) repo.
 - Performance code is a separate project and depends on play project.
-- You need to run the app before running the Gatling tests. So, while the app is running, open another terminal and run the following command:
+- You need to run the app before running the Gatling tests. So, while the app is running, open another terminal and run
+  the following command:
 ```scala
 > sbt gatling:test
 ```
 - More examples can be found at [gatling tutorials](http://gatling.io/docs/current/advanced_tutorial/#advanced-tutorial)
-- You can check more scenarios at [Gatling simulation](http://gatling.io/docs/2.2.2/general/simulation_structure.html#simulation-structure).
+- You can check more scenarios at
+  [Gatling simulation](http://gatling.io/docs/2.2.2/general/simulation_structure.html#simulation-structure).
 - An HTML file containing the load test results: `perf/target/gatling/gatlingspec-{timemillis}/index.html`
-
-
-

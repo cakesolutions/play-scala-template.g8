@@ -23,7 +23,10 @@ object RestApiIntegrationTest {
     )
   }
 
-  val optionalEnvVars: Map[String, String] = Map()
+  val optionalEnvVars: Map[String, String] = Map(
+    "TEST_ACTOR_CREATOR_SERIALISATION" -> "on",
+    "TEST_ACTOR_MESSAGE_SERIALISATION" -> "on"
+  )
 }
 
 trait RestApiIntegrationTest extends AsyncFreeSpec with Matchers {
