@@ -47,3 +47,13 @@ To test the output of the template you can run it locally with the following com
 ```
 sbt new file://./play-scala-template.g8
 ```
+
+# Releasing of the `play-scala-template.g8` Template
+
+In order to release version `X.Y.Z` of the `play-scala-template.g8` template, perform the following actions:
+```text
+git tag -s vX.Y.Z
+git push --tags
+```
+
+Releasing of templates is simply a matter of adding tags to the github repository.
