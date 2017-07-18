@@ -1,39 +1,40 @@
-// Please read https://github.com/cakesolutions/sbt-cake
-//
-// NOTE: common settings are in project/ProjectPlugin.scala but
-//       anything specific to a project should go in this file. Check
-//       sbt-cake for standard libraryDependencies used in various
-//       Cake projects, otherwise just add dependencies explicitly
-//       in this file.
+import $organisation_domain$.$organisation$.Dependencies._
 
-lazy val perf = (project in file("perf"))
-  .enablePlugins(GatlingPlugin)
-  .settings(
-    libraryDependencies ++= Seq(
-      "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.5" % "test",
-      "io.gatling"            % "gatling-test-framework"    % "2.2.5" % "test"
-    )
-  ).dependsOn(play % "test->compile")
+// FIXME: the following Settings need to be defined on a per project basis
+snapshotRepositoryResolver := None
+repositoryResolver := None
+issueManagementUrl := None
+issueManagementProject := None
 
 lazy val play = project
+  .enablePlugins(ProjectDockerBuildPlugin)
   .enablePlay
-  .enablePlugins(BuildInfoPlugin, DockerPlugin, AshScriptPlugin)
   .enableIntegrationTests
   .settings(
     libraryDependencies ++= Seq(
-      "org.webjars"            %  "swagger-ui"         % "3.0.10",
-      "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % "it,test",
-      ws % "it,test" // Play WebServer client library
+      cats,
+      playScalatest % "it,test",
+      Refined.core,
+      validatedConfig,
+      webjars,
+      // Play WebServer client library
+      ws % "it,test"
     )
   )
 
+lazy val perf = (project in file("perf"))
+  .enablePlugins(ProjectPlugin, GatlingPlugin)
+  .settings(
+    libraryDependencies ++= Seq(
+      cats,
+      GatlingDependencies.highcharts % "test",
+      GatlingDependencies.testkit % "test",
+      Refined.core,
+      typesafeConfig,
+      validatedConfig
+    )
+  )
+  .dependsOn(play % "test->compile;test->it")
+
 // run the WebApp as default
 addCommandAlias("run", "play/run")
-
-// integration Tests require Docker fleet.
-// TODO: after CO-103 is done at sbt-cake, change here.
-addCommandAlias("integrationTests", ";dockerComposeUp;it:test;dockerComposeDown;dockerRemove")
-
-// performance Tests require Docker fleet.
-// TODO: after CO-103 is done at sbt-cake, change here.
-addCommandAlias("performanceTests", ";dockerComposeUp;gatling:test;dockerComposeDown;dockerRemove")

@@ -12,7 +12,7 @@ class HealthCheckControllerSpec extends PlaySpec {
   "HealthCheckController" should {
     "return the application status" in {
       val request = FakeRequest("GET", "/health")
-      val result  = controller.health.apply(request)
+      val result = controller.health.apply(request)
       status(result) mustBe Status.OK
       (contentAsJson(result) \ "status").as[String] mustBe "Ok"
     }

@@ -1,27 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
+    <include resource="logback-include-appenders.xml"/>
 
-    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%coloredLevel %logger{15} - %message%xException{10} \n</pattern>
-        </encoder>
-    </appender>
-
+    <!-- Use the following to control log levels and filtering, at the package level -->
+    <logger name="akka" level="INFO"/>
     <logger name="incoming-request" level="INFO" additivity="false">
-        <appender-ref ref="stdout" />
+        <appender-ref ref="STDOUT"/>
     </logger>
-
+    <logger name="org.asynchttpclient.netty.channel" level="INFO"/>
     <logger name="outgoing-request" level="INFO" additivity="false">
-        <appender-ref ref="stdout" />
+        <appender-ref ref="STDOUT"/>
     </logger>
-
-    <logger name="org.asynchttpclient.netty.channel" level="INFO" />
-
     <logger name="web-access" level="INFO" additivity="false">
-        <appender-ref ref="stdout"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
-
-    <root level="INFO">
-        <appender-ref ref="stdout" />
-    </root>
 </configuration>

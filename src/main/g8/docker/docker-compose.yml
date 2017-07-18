@@ -1,0 +1,25 @@
+# Docker Compose Definitions for local Developer Environments
+# - Use this file as follows:
+#   docker-compose -f docker/docker-compose.yml up
+version: "2.1"
+
+# **All** services within this file should be defined with healthchecks
+services:
+  play:
+    image: $name$/play
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "-", "http://localhost:9000/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      APP_HOST: "0.0.0.0"
+      APP_PORT: "9000"
+      APPLICATION_SECRET: change_me
+    ports:
+      - "9000:9000"
+    networks:
+      - external
+
+networks:
+  external:

@@ -4,5 +4,5 @@ import com.google.inject.Inject
 import play.api.http.DefaultHttpFilters
 
 class BaseFilters @Inject()(
-    errorHandlingFilter: ErrorHandlingFilter
+  errorHandlingFilter: ErrorHandlingFilter
 ) extends DefaultHttpFilters(errorHandlingFilter)

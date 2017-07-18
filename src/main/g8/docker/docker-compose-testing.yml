@@ -1,0 +1,12 @@
+# Docker Compose Definitions for Testing Environments
+# - In general, we publicly expose service ports to the host environment
+#   to facilitate integration testing.
+# - Use this file as follows:
+#   docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml up
+version: "2.1"
+
+services:
+  play:
+    environment:
+      TEST_ACTOR_CREATOR_SERIALISATION: on
+      TEST_ACTOR_MESSAGE_SERIALISATION: on

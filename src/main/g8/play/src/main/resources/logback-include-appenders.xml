@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%coloredLevel %logger{15} - %message%xException{10} \n</pattern>
+        </encoder>
+    </appender>
+
+    <if condition='isDefined("LOGSTASH_DESTINATION")'>
+        <then>
+            <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+                <destination>\${LOGSTASH_DESTINATION}</destination>
+
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                    <timeZone>UTC</timeZone>
+                    <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>
+                    <customFields>{"environment": "\${environment:-unknown}", "service-version" : "\${service-version:-unknown}" }</customFields>
+                </encoder>
+            </appender>
+
+            <root>
+                <appender-ref ref="STASH"/>
+            </root>
+        </then>
+    </if>
+
+    <root>
+        <appender-ref ref="STDOUT" />
+    </root>
+</included>

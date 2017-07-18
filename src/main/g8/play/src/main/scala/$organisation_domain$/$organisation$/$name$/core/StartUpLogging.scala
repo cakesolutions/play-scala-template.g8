@@ -6,14 +6,19 @@ import javax.inject._
 import play.api.{Configuration, LoggerLike}
 
 /**
- * Defines standard logging of configuration, environment, properties and system information.
- */
-class StartUpLogging @Inject() (config: Configuration, @Named("startUpLogging") log: LoggerLike) {
+  * Defines standard logging of configuration, environment, properties and
+  * system information.
+  */
+class StartUpLogging @Inject()(
+  config: Configuration,
+  @Named("startUpLogging") log: LoggerLike
+) {
+
   /**
-   * Logs environment, JVM, properties and configurations data.
-   * @param config Typesafe configuration object
-   * @param log the logging adapter to which the logs will be sent
-   */
+    * Logs environment, JVM, properties and configurations data.
+    * @param config Typesafe configuration object
+    * @param log the logging adapter to which the logs will be sent
+    */
   def log(): Unit = {
     logEnvironmentData()
     logJVMData()
@@ -32,15 +37,37 @@ class StartUpLogging @Inject() (config: Configuration, @Named("startUpLogging") 
     val heap = ManagementFactory.getMemoryMXBean.getHeapMemoryUsage
     val nonHeap = ManagementFactory.getMemoryMXBean.getNonHeapMemoryUsage
 
-    log.info(s"java.lang.memory.heap: committed=\${prettyPrintBytes(heap.getCommitted)}")
-    log.info(s"java.lang.memory.heap: initial=\${prettyPrintBytes(heap.getInit)}")
-    log.info(s"java.lang.memory.heap: maximum=\${prettyPrintBytes(heap.getMax)}")
-    log.info(s"java.lang.memory.heap: used=\${prettyPrintBytes(heap.getUsed)}")
-    log.info(s"java.lang.memory.non-heap: committed=\${prettyPrintBytes(nonHeap.getCommitted)}")
-    log.info(s"java.lang.memory.non-heap: initial=\${prettyPrintBytes(nonHeap.getInit)}")
-    log.info(s"java.lang.memory.non-heap: maximum=\${prettyPrintBytes(nonHeap.getMax)}")
-    log.info(s"java.lang.memory.non-heap: used=\${prettyPrintBytes(nonHeap.getUsed)}")
-    log.info(s"runtime: available-processors=\${Runtime.getRuntime.availableProcessors()}")
+    log.info(
+      "java.lang.memory.heap: committed=" +
+        prettyPrintBytes(heap.getCommitted)
+    )
+    log.info(
+      s"java.lang.memory.heap: initial=\${prettyPrintBytes(heap.getInit)}"
+    )
+    log.info(
+      s"java.lang.memory.heap: maximum=\${prettyPrintBytes(heap.getMax)}"
+    )
+    log.info(
+      s"java.lang.memory.heap: used=\${prettyPrintBytes(heap.getUsed)}"
+    )
+    log.info(
+      "java.lang.memory.non-heap: committed=" +
+        prettyPrintBytes(nonHeap.getCommitted)
+    )
+    log.info(
+      "java.lang.memory.non-heap: initial=" +
+        prettyPrintBytes(nonHeap.getInit)
+    )
+    log.info(
+      s"java.lang.memory.non-heap: maximum=\${prettyPrintBytes(nonHeap.getMax)}"
+    )
+    log.info(
+      s"java.lang.memory.non-heap: used=\${prettyPrintBytes(nonHeap.getUsed)}"
+    )
+    log.info(
+      "runtime: available-processors=" +
+        Runtime.getRuntime.availableProcessors().toString
+    )
   }
 
   private def logPropertyData(): Unit = {
