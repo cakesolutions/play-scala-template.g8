@@ -8,5 +8,5 @@ version: "2.1"
 services:
   play:
     environment:
-      TEST_ACTOR_CREATOR_SERIALISATION: on
-      TEST_ACTOR_MESSAGE_SERIALISATION: on
+      TEST_ACTOR_CREATOR_SERIALISATION: "on"
+      TEST_ACTOR_MESSAGE_SERIALISATION: "on"

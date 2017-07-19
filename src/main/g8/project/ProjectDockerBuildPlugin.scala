@@ -1,4 +1,4 @@
-import com.typesafe.sbt.packager.archetypes.AshScriptPlugin
+import com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin
 import net.cakesolutions._
 import sbt._
 

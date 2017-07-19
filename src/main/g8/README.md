@@ -25,8 +25,15 @@ See the following info for building the app.
 ```bash
 > sbt compile
 > sbt test
-> sbt integrationTest
-> sbt it:test
+```
+
+The commands for running integration tests are as follows:
+
+```bash
+
+> sbt dockerComposeUp # start the service which will be tested
+> sbt it:test # run the integration tests
+> sbt dockerComposeDown # clean up the services
 ```
 
 ## Code Coverage

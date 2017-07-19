@@ -1,19 +1,19 @@
 package $organisation_domain$.$organisation$.$name$.core.api.controllers
 
 import org.scalatestplus.play.PlaySpec
-import play.api.http.Status
-import play.api.test.FakeRequest
+import play.api.mvc._
+import play.api.test._
 import play.api.test.Helpers._
 
-class HealthCheckControllerSpec extends PlaySpec {
+class HealthCheckControllerSpec extends PlaySpec with Results {
 
-  val controller = new HealthCheckController
+  val controller = new HealthCheckController(stubControllerComponents())
 
   "HealthCheckController" should {
     "return the application status" in {
       val request = FakeRequest("GET", "/health")
       val result = controller.health.apply(request)
-      status(result) mustBe Status.OK
+      status(result) mustBe OK
       (contentAsJson(result) \ "status").as[String] mustBe "Ok"
     }
   }

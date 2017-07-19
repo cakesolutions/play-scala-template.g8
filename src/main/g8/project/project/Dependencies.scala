@@ -31,7 +31,8 @@ object Dependencies {
 
   object SbtPlugins {
     val gatling: ModuleID = "io.gatling" % "gatling-sbt" % "2.2.1"
-    val sbtCake: ModuleID = "net.cakesolutions" % "sbt-cake" % "1.1.4"
+    val play: ModuleID = "com.typesafe.play" % "sbt-plugin" % "2.6.1"
+    val sbtCake: ModuleID = "net.cakesolutions" % "sbt-cake" % "1.1.5"
     val scalafmt: ModuleID = "com.lucidchart" % "sbt-scalafmt" % "1.7"
     val sbtHeader: ModuleID = "de.heikoseeberger" % "sbt-header" % "2.0.0"
     val scalastyle: ModuleID =

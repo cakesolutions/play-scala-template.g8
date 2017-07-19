@@ -59,4 +59,37 @@ object ProjectPlugin extends AutoPlugin {
           HeaderFileType.scala -> HeaderCommentStyle.CppStyleLineComment
         )
   )
+
+}
+
+object ProjectPluginKeys {
+  // NOTE: anything in here is automatically visible in build.sbt
+    /**
+    * Implicitly add extra methods to in scope Projects
+    *
+    * @param p project that Play application setting should be applied to
+    */
+  implicit final class PlayOps(val p: Project) extends AnyVal {
+    import play.sbt._
+    import PlayImport.PlayKeys
+    import play.twirl.sbt.Import.TwirlKeys
+
+    /**
+      * Enable Play Scala plugin, SBT style layout and a default set of
+      * settings.
+      *
+      * @return project with Play settings and configuration applied
+      */
+    def enablePlay: Project =
+      p.enablePlugins(PlayScala)
+        // For consistency we prefer default SBT style layout
+        // https://www.playframework.com/documentation/2.5.x/Anatomy
+        .disablePlugins(PlayLayoutPlugin)
+        .settings(
+          // false positives in generated code
+          scalacOptions -= "-Ywarn-unused-import",
+          PlayKeys.playMonitoredFiles ++=
+            (sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value
+        )
+  }
 }

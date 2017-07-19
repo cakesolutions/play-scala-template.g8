@@ -1,4 +1,4 @@
-import $organisation_domain$.$organisation$.Dependencies._
+import $organisation_domain$.$organisation$.Dependencies._, ProjectPluginKeys._
 
 // FIXME: the following Settings need to be defined on a per project basis
 snapshotRepositoryResolver := None
@@ -13,6 +13,7 @@ lazy val play = project
   .settings(
     libraryDependencies ++= Seq(
       cats,
+      guice,
       playScalatest % "it,test",
       Refined.core,
       validatedConfig,

@@ -1,19 +1,19 @@
 package $organisation_domain$.$organisation$.$name$.core.api.controllers
 
-import org.scalatestplus.play.PlaySpec
-import play.api.http.Status
-import play.api.test.FakeRequest
+import org.scalatestplus.play._
+import play.api.mvc._
+import play.api.test._
 import play.api.test.Helpers._
 
-class BuildInfoControllerSpec extends PlaySpec {
+class BuildInfoControllerSpec extends PlaySpec with Results {
 
-  val controller = new BuildInfoController
+  val controller = new BuildInfoController(stubControllerComponents())
 
   "BuildInfoController" should {
     "return the build info" in {
       val request = FakeRequest("GET", "/version")
       val result = controller.info.apply(request)
-      status(result) mustBe Status.OK
+      status(result) mustBe OK
     }
   }
 

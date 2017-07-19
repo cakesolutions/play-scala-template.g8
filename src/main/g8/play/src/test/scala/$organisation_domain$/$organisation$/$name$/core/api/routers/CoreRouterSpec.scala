@@ -13,11 +13,11 @@ class CoreRouterSpec extends PlaySpec {
     GuiceApplicationBuilder(environment = Environment.simple(mode = Mode.Dev))
       .configure(
         "play.http.router" ->
-          "test_net.test_cakesolutions.playrepo.core.api.routers.CoreRouter"
+          "$organisation_domain$.$organisation$.$name$.core.api.routers.CoreRouter"
       )
       .configure(
         "play.http.filters" ->
-          "test_net.test_cakesolutions.playrepo.core.api.filters.BaseFilters"
+          "$organisation_domain$.$organisation$.$name$.core.api.filters.BaseFilters"
       )
       .build()
   Play.start(application)

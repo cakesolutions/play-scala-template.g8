@@ -2,7 +2,7 @@ package $organisation_domain$.$organisation$.$name$.core
 
 import org.scalatestplus.play.PlaySpec
 import org.slf4j.LoggerFactory
-import play.api.{LoggerLike, Play}
+import play.api.{LoggerLike, MarkerContext, Play}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 
@@ -14,14 +14,16 @@ class StartUpLoggingSpec extends PlaySpec {
     val logger = LoggerFactory.getLogger("Test")
     val logged = new StringBuilder()
 
-    override def info(message: => String): Unit = {
+    override def info(message: => String)(implicit mc: MarkerContext): Unit = {
       logged.append(message)
       ValueDiscard[StringBuilder] {
         logged.append(System.lineSeparator())
       }
     }
 
-    override def info(message: => String, error: => Throwable): Unit = {
+    override def info(message: => String, error: => Throwable)(
+      implicit mc: MarkerContext
+    ): Unit = {
       logged.append(message)
       logged.append(System.lineSeparator())
       logged.append(error.toString)

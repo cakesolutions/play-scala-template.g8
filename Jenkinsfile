@@ -6,6 +6,8 @@ pipeline {
   environment {
     // Ensure that build scripts recognise the environment they are running within
     CI = 'jenkins'
+    // Use the git SHA to gain some integration test isolation
+    DOCKER_COMPOSE_PROJECT_NAME = sh(returnStdout: true, script: "git rev-parse --verify HEAD").trim()
   }
 
   stages {
@@ -28,6 +30,9 @@ pipeline {
           dir("playrepo") {
             script {
               sh "sbt checkExternalBuildTools"
+              // TODO: CO-180: replace the following by dockerComposeConfigCheck
+              sh "docker-compose -p \$DOCKER_COMPOSE_PROJECT_NAME -f docker/docker-compose.yml -f docker/docker-compose-testing.yml config -q"
+              sh "docker-compose -p \$DOCKER_COMPOSE_PROJECT_NAME -f docker/docker-compose.yml -f docker/docker-compose-debug.yml config -q"
               sh "sbt dockerComposeDown"
               sh "docker images"
               sh "docker ps -a"
@@ -89,6 +94,7 @@ pipeline {
                   sh "sbt it:test"
                 }
               } finally {
+                sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml logs"
                 sh "sbt dockerComposeDown"
               }
             }

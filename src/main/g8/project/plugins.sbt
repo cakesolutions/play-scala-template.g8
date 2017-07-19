@@ -15,7 +15,9 @@ ivyLoggingLevel := UpdateLogging.Quiet
 scalacOptions in Compile ++= Seq("-feature", "-deprecation")
 
 addSbtPlugin(gatling)
+addSbtPlugin(play)
 addSbtPlugin(sbtCake)
 addSbtPlugin(sbtHeader)
 addSbtPlugin(scalafmt)
 addSbtPlugin(scalastyle)
+

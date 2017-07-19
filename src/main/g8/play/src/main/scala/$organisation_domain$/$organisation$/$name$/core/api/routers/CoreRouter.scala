@@ -24,7 +24,7 @@ class CoreRouter @Inject()(
 
     // Swagger Documentation and Specification routes
     case GET(p"/specs.yml") =>
-      assetsController.at(path = "/", "playrepo.yml")
+      assetsController.at(path = "/", "$name$.yml")
     case GET(p"/docs" ? q"url=\$url") =>
       assetsController.at(path = "/public/lib/swagger-ui", file = "index.html")
     case GET(p"/docs/index.html" ? q"url=\$specs") =>

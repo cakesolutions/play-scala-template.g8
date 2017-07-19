@@ -4,6 +4,7 @@ import scala.concurrent.ExecutionContext
 
 import com.google.inject.Inject
 import org.scalatest.Tag
+import play.mvc.Http
 
 object Docker extends Tag("Docker")
 
@@ -13,6 +14,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       "should always return status okay" taggedAs (Docker) in {
         wsClient
           .url(s"\$appUrl/health")
+          .addHttpHeaders(Http.HeaderNames.HOST -> "localhost")
           .get()
           .map(res => {
             res.status shouldEqual 200
@@ -24,6 +26,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       "should return a JSON object with current version" taggedAs (Docker) in {
         wsClient
           .url(s"\$appUrl/version")
+          .addHttpHeaders(Http.HeaderNames.HOST -> "localhost")
           .get()
           .map(res => {
             res.status shouldEqual 200
@@ -35,6 +38,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       "should return the yaml specs" taggedAs (Docker) in {
         wsClient
           .url(s"\$appUrl/specs.yml")
+          .addHttpHeaders(Http.HeaderNames.HOST -> "localhost")
           .get()
           .map(res => {
             res.status shouldEqual 200
@@ -43,6 +47,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       "should redirect to the API docs" taggedAs (Docker) in {
         wsClient
           .url(s"\$appUrl/docs")
+          .addHttpHeaders(Http.HeaderNames.HOST -> "localhost")
           .withFollowRedirects(false)
           .get()
           .map(res => {
@@ -55,6 +60,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       "should show the API docs" taggedAs (Docker) in {
         wsClient
           .url(s"\$appUrl/docs?url=/specs.yml")
+          .addHttpHeaders(Http.HeaderNames.HOST -> "localhost")
           .get()
           .map(res => {
             res.status shouldEqual 200
@@ -63,6 +69,7 @@ class $name;format="Camel"$IntegrationTest @Inject() extends RestApiIntegrationT
       "default route should re-direct to API docs" taggedAs (Docker) in {
         wsClient
           .url(s"\$appUrl/")
+          .addHttpHeaders(Http.HeaderNames.HOST -> "localhost")
           .withFollowRedirects(false)
           .get()
           .map(res => {
