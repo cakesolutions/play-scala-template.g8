@@ -3,7 +3,7 @@
 ## $project_description$
 
 Before writing any code in this repository be sure to read the documentation in the [docs](./doc) directory, this
-provides guidelines and how to configure the local development environment and how to contribute to the appliction.
+provides guidelines and how to configure the local development environment and how to contribute to the application.
 
 Guides to developing code on this project can be found here:
 
