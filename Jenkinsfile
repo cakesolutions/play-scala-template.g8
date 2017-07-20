@@ -30,9 +30,7 @@ pipeline {
           dir("playrepo") {
             script {
               sh "sbt checkExternalBuildTools"
-              // TODO: CO-180: replace the following by dockerComposeConfigCheck
-              sh "docker-compose -p \$DOCKER_COMPOSE_PROJECT_NAME -f docker/docker-compose.yml -f docker/docker-compose-testing.yml config -q"
-              sh "docker-compose -p \$DOCKER_COMPOSE_PROJECT_NAME -f docker/docker-compose.yml -f docker/docker-compose-debug.yml config -q"
+              sh "sbt dockerComposeConfigCheck"
               sh "sbt dockerComposeDown"
               sh "docker images"
               sh "docker ps -a"
