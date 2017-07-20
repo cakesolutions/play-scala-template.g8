@@ -6,6 +6,7 @@ import scala.language.postfixOps
 import com.typesafe.config.Config
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
+import io.gatling.http.HeaderNames
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 
@@ -57,19 +58,27 @@ class $name;format="Camel"$PerformanceTest extends Simulation {
     s"\$scheme://\$host:\$port"
   }
 
-  val httpConf: HttpProtocolBuilder = http.baseURL(s"\$appUrl/health")
+  val httpConf: HttpProtocolBuilder = http.baseURL(appUrl)
 
-  val readClients = scenario("Clients").exec(Index.refreshManyTimes)
+  val readClients = scenario("Clients").exec(HealthCheck.refreshManyTimes)
 
   setUp(
     readClients.inject(rampUsers(100) over (10 seconds)).protocols(httpConf)
+  ).assertions(
+    global.successfulRequests.percent.gt(95)
   )
 }
 
-object Index {
+object HealthCheck {
 
-  def refreshAfterOneSecond: ChainBuilder =
-    exec(http("Index").get("/").check(status.is(200))).pause(1)
+  def refreshAfterOneSecond: ChainBuilder = {
+    exec(
+      http("Health")
+        .get("/health")
+        .header(HeaderNames.Host, "localhost")
+        .check(status.is(200))
+    ).pause(1)
+  }
 
   val refreshManyTimes = repeat(10) {
     refreshAfterOneSecond
