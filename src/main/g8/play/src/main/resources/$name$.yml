@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.0
+  version: '1.0'
   title: $name;format="Camel"$
   description: |
     This specification defines the $name;format="Camel"$ API. The $name;format="Camel"$ - $project_description$.
