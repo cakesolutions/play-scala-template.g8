@@ -2,8 +2,8 @@ package $organisation_domain$.$organisation$.$name$.core.api.controllers
 
 import org.scalatestplus.play.PlaySpec
 import play.api.mvc._
-import play.api.test._
 import play.api.test.Helpers._
+import play.api.test._
 
 class HealthCheckControllerSpec extends PlaySpec with Results {
 

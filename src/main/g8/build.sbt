@@ -1,4 +1,6 @@
-import $organisation_domain$.$organisation$.Dependencies._, ProjectPluginKeys._
+import ProjectPluginKeys._
+
+import $organisation_domain$.$organisation$.Dependencies._
 
 // FIXME: the following Settings need to be defined on a per project basis
 snapshotRepositoryResolver := None

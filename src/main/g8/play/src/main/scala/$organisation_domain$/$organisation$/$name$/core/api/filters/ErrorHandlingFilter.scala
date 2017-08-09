@@ -7,8 +7,8 @@ import scala.util.control.NonFatal
 
 import akka.stream.Materializer
 import play.api.Logger
-import play.api.mvc._
 import play.api.mvc.Results._
+import play.api.mvc._
 
 class ErrorHandlingFilter @Inject()(
   implicit ec: ExecutionContext,
