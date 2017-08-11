@@ -11,8 +11,8 @@ pipeline {
   }
 
   stages {
-    steps {
-      stage('Environment') {
+    stage('Environment') {
+      steps {
         ansiColor('xterm') {
           script {
             sh "sbt checkExternalBuildTools"
