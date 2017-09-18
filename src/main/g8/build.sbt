@@ -24,20 +24,35 @@ lazy val play = project
       ws % "it,test"
     )
   )
+  .dependsOn(testCommon % "it,test")
+
+lazy val testCommon = (project in file("testCommon"))
+  .settings(
+    libraryDependencies ++= Seq(
+      typesafeConfig
+    )
+  )
 
 lazy val perf = (project in file("perf"))
-  .enablePlugins(ProjectPlugin, GatlingPlugin)
+  .enablePlugins(ProjectDockerBuildPlugin)
   .settings(
     libraryDependencies ++= Seq(
       cats,
-      GatlingDependencies.highcharts % "test",
-      GatlingDependencies.testkit % "test",
+      GatlingDependencies.app,
+      GatlingDependencies.http,
+      GatlingDependencies.testkit,
       Refined.core,
       typesafeConfig,
       validatedConfig
-    )
+    ),
+    dockerExposedVolumes += "/opt/docker/results",
+    dockerComposeImageTask := (
+      dockerComposeImageTask dependsOn (dockerComposeImageTask in play)
+    ).value,
+    dockerComposeFiles += file("docker/docker-compose-perf.yml"),
+    dockerComposeUpLaunchStyle := "--abort-on-container-exit"
   )
-  .dependsOn(play % "test->compile;test->it")
+  .dependsOn(play, testCommon)
 
 // run the WebApp as default
 addCommandAlias("run", "play/run")

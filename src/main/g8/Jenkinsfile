@@ -16,8 +16,8 @@ pipeline {
         ansiColor('xterm') {
           script {
             sh "sbt checkExternalBuildTools"
-            sh "sbt dockerComposeConfigCheck"
-            sh "sbt dockerComposeDown"
+            sh "sbt play/dockerComposeConfigCheck"
+            sh "sbt play/dockerComposeDown"
             sh "docker images"
             sh "docker ps -a"
           }
@@ -67,13 +67,13 @@ pipeline {
             // In CI environments, we use the eth0 or local-ipv4 address of the slave
             // instead of localhost
             try {
-              sh "sbt coverageOff dockerComposeUp"
+              sh "sbt coverageOff play/dockerComposeUp"
               def dockerip = sh(returnStdout: true, script:  \$/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/\$).trim()
               withEnv(["CI_HOST=\$dockerip"]) {
                 sh "sbt coverageOn it:test"
               }
             } finally {
-              sh "sbt dockerComposeDown"
+              sh "sbt play/dockerComposeDown"
             }
           }
         }
@@ -84,18 +84,7 @@ pipeline {
       steps {
         ansiColor('xterm') {
           script {
-            // In CI environments, we use the eth0 or local-ipv4 address of the slave
-            // instead of localhost
-            try {
-              sh "sbt coverageOff dockerComposeUp"
-              def dockerip = sh(returnStdout: true, script:  \$/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/\$).trim()
-              withEnv(["CI_HOST=\$dockerip"]) {
-                sh "sbt gatling:test"
-                junit '**/test-reports/*.xml'
-              }
-            } finally {
-              sh "sbt dockerComposeDown"
-            }
+            sh "sbt perf/dockerComposeUp"
           }
         }
       }

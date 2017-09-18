@@ -30,8 +30,8 @@ pipeline {
           dir("playrepo") {
             script {
               sh "sbt checkExternalBuildTools"
-              sh "sbt dockerComposeConfigCheck"
-              sh "sbt dockerComposeDown"
+              sh "sbt play/dockerComposeConfigCheck"
+              sh "sbt play/dockerComposeDown"
               sh "docker images"
               sh "docker ps -a"
             }
@@ -86,14 +86,14 @@ pipeline {
               // In CI environments, we use the eth0 or local-ipv4 address of the slave
               // instead of localhost
               try {
-                sh "sbt dockerComposeUp"
+                sh "sbt play/dockerComposeUp"
                 def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
                 withEnv(["CI_HOST=$dockerip"]) {
                   sh "sbt it:test"
                 }
               } finally {
                 sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-testing.yml logs"
-                sh "sbt dockerComposeDown"
+                sh "sbt play/dockerComposeDown"
               }
             }
           }
@@ -106,17 +106,7 @@ pipeline {
         ansiColor('xterm') {
           dir("playrepo") {
             script {
-              // In CI environments, we use the eth0 or local-ipv4 address of the slave
-              // instead of localhost
-              try {
-                sh "sbt dockerComposeUp"
-                def dockerip = sh(returnStdout: true, script:  $/wget http://169.254.169.254/latest/meta-data/local-ipv4 -qO-/$).trim()
-                withEnv(["CI_HOST=$dockerip"]) {
-                  sh "sbt gatling:test"
-                }
-              } finally {
-                sh "sbt dockerComposeDown"
-              }
+              sh "sbt perf/dockerComposeUp"
             }
           }
         }

@@ -17,8 +17,8 @@ object Dependencies {
   object GatlingDependencies {
     val version = "2.2.5"
 
-    val highcharts: ModuleID =
-      "io.gatling.highcharts" % "gatling-charts-highcharts" % version
+    val app: ModuleID = "io.gatling" % "gatling-app" % version
+    val http: ModuleID = "io.gatling" % "gatling-http" % version
     val testkit: ModuleID = "io.gatling" % "gatling-test-framework" % version
   }
 

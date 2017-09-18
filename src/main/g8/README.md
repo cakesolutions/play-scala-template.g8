@@ -31,9 +31,9 @@ The commands for running integration tests are as follows:
 
 ```bash
 
-> sbt dockerComposeUp # start the service which will be tested
+> sbt play/dockerComposeUp # start the service which will be tested
 > sbt it:test # run the integration tests
-> sbt dockerComposeDown # clean up the services
+> sbt play/dockerComposeDown # clean up the services
 ```
 
 ## Code Coverage
@@ -66,16 +66,14 @@ To start the Play app locally run the following and open a browser [here](http:/
 ## Gatling Performance Test
 
 - [Gatling Performance Testing Tool](http://gatling.io/) is chosen as the load testing tool for the project.
-- It is added as a [sbt plugin](http://gatling.io/docs/current/extensions/sbt_plugin/).
 - A simple example for testing endpoints are adapted from
   [play-scala-rest-api-example](https://github.com/playframework/play-scala-rest-api-example) repo.
-- Performance code is a separate project and depends on play project.
-- You need to run the app before running the Gatling tests. So, while the app is running, open another terminal and run
-  the following command:
+- Performance code is a separate project and depends on the Play project.
+- Performance code is packaged into a Docker container, which can be run separate from the Play project.
+- You can run both the Play project and the performance tests using docker-compose:
 ```scala
-> sbt gatling:test
+> sbt perf/dockerComposeUp
 ```
 - More examples can be found at [gatling tutorials](http://gatling.io/docs/current/advanced_tutorial/#advanced-tutorial)
 - You can check more scenarios at
   [Gatling simulation](http://gatling.io/docs/2.2.2/general/simulation_structure.html#simulation-structure).
-- An HTML file containing the load test results: `perf/target/gatling/gatlingspec-{timemillis}/index.html`
