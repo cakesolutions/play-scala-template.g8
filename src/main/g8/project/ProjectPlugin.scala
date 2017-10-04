@@ -20,9 +20,9 @@ object ProjectPlugin extends AutoPlugin {
 
   /** @see [[sbt.AutoPlugin]] */
   override val buildSettings = Seq(
-    name := "$name$",
+    name := "$name;format="norm,word"$",
     organization := "$organisation_domain$.$organisation$",
-    buildInfoPackage := "$organisation_domain$.$organisation$.$name$.build",
+    buildInfoPackage := "$organisation_domain$.$organisation$.$name;format="norm,word"$.build",
     buildInfoKeys := Seq[BuildInfoKey](
       name,
       version,

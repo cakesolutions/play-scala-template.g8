@@ -6,7 +6,7 @@ version: "2.1"
 # **All** services within this file should be defined with healthchecks
 services:
   play:
-    image: $name$/play
+    image: $name;format="norm,word"$/play
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "http://localhost:9000/health"]
       interval: 5s
