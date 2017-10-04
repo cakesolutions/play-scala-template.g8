@@ -1,4 +1,4 @@
-package $organisation_domain$.$organisation$.$name;format="norm,word"$.core.api.filters
+package $organisation_domain$.$organisation$.$name$.core.api.filters
 
 import scala.concurrent.ExecutionContext
 
@@ -10,7 +10,7 @@ import play.api.mvc.{DefaultActionBuilder, Filters}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
-class BaseFiltersSpec extends PlaySpec with GuiceOneAppPerSuite {
+class ErrorHandlingFilterSpec extends PlaySpec with GuiceOneAppPerSuite {
 
   implicit lazy val materializer: Materializer = app.materializer
 
@@ -20,8 +20,7 @@ class BaseFiltersSpec extends PlaySpec with GuiceOneAppPerSuite {
       val Action = app.injector.instanceOf[DefaultActionBuilder]
       val action = Action(_ => throw new RuntimeException("Server error"))
       val rh = FakeRequest()
-      val filters = new BaseFilters(new ErrorHandlingFilter()).filters
-      val result = Filters(action, filters: _*)(rh)
+      val result = Filters(action, new ErrorHandlingFilter())(rh)
       status(result) mustBe Status.INTERNAL_SERVER_ERROR
     }
   }

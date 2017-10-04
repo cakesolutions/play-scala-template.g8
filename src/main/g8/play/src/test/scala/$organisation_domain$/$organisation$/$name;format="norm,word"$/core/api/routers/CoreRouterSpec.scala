@@ -15,10 +15,6 @@ class CoreRouterSpec extends PlaySpec {
         "play.http.router" ->
           "$organisation_domain$.$organisation$.$name;format="norm,word"$.core.api.routers.CoreRouter"
       )
-      .configure(
-        "play.http.filters" ->
-          "$organisation_domain$.$organisation$.$name;format="norm,word"$.core.api.filters.BaseFilters"
-      )
       .build()
   Play.start(application)
 
