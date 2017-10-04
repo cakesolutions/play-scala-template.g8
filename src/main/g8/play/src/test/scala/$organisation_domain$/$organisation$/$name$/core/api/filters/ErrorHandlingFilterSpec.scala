@@ -1,4 +1,4 @@
-package $organisation_domain$.$organisation$.$name$.core.api.filters
+package $organisation_domain$.$organisation$.$name;format="norm,word"$.core.api.filters
 
 import scala.concurrent.ExecutionContext
 
