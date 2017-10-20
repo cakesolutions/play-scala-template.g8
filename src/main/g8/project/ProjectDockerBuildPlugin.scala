@@ -17,7 +17,7 @@ object ProjectDockerBuildPlugin extends AutoPlugin {
 
   /** @see [[sbt.AutoPlugin]] */
   override val buildSettings = Seq(
-    CakeDockerComposePluginKeys.dockerComposeFiles :=
+    CakeDockerComposeKeys.dockerComposeFiles :=
       Seq(
         file("docker/docker-compose.yml"),
         file("docker/docker-compose-testing.yml")

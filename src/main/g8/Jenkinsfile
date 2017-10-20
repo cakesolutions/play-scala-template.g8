@@ -39,8 +39,7 @@ pipeline {
       steps {
         ansiColor('xterm') {
           script {
-            // TODO: CO-167: enable sbt-header for integration tests
-            sh "sbt headerCheck test:headerCheck scalastyle test:scalastyle it:scalastyle sbt:scalafmt::test scalafmt::test test:scalafmt::test it:scalafmt::test"
+            sh "sbt validate"
           }
         }
       }

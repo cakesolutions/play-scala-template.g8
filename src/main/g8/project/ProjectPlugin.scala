@@ -58,13 +58,21 @@ object ProjectPlugin extends AutoPlugin {
           HeaderFileType.java -> HeaderCommentStyle.CppStyleLineComment,
           HeaderFileType.scala -> HeaderCommentStyle.CppStyleLineComment
         )
+  ) ++ addCommandAlias(
+    // FIXME: headerCheck, test:headerCheck and it:headerCheck commands
+    // need to be added to the end of validate commands.
+    "validate",
+    ";reload plugins; sbt:scalafmt::test; scalafmt::test; reload return; " +
+      "sbt:scalafmt::test; scalafmt::test; test:scalafmt::test; " +
+      "it:scalafmt::test; " +
+      "scalastyle; test:scalastyle; it:scalastyle"
   )
 
 }
 
 object ProjectPluginKeys {
   // NOTE: anything in here is automatically visible in build.sbt
-    /**
+  /**
     * Implicitly add extra methods to in scope Projects
     *
     * @param p project that Play application setting should be applied to

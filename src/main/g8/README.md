@@ -36,6 +36,21 @@ The commands for running integration tests are as follows:
 > sbt play/dockerComposeDown # clean up the services
 ```
 
+There is a predefined command alias `validate` that consists of
+following commands;
+
+```bash
+";reload plugins; sbt:scalafmt::test; scalafmt::test; reload return; " +
+"sbt:scalafmt::test; scalafmt::test; test:scalafmt::test; it:scalafmt::test; " +
+"scalastyle; test:scalastyle; it:scalastyle;"
+```
+
+You should also add `headerCheck; test:headerCheck; it:headerCheck` commands at the end
+to check your project's headers.
+
+Note: The `;reload plugins; sbt:scalafmt::test; scalafmt::test; reload return;` is for formatting
+meta-build files.
+
 ## Code Coverage
 
 [sbt-scoverage](https://github.com/scoverage/sbt-scoverage) is chosen as the code coverage tool for the project.
