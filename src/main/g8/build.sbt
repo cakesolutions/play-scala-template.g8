@@ -8,7 +8,11 @@ repositoryResolver := None
 issueManagementUrl := None
 issueManagementProject := None
 
-lazy val play = project
+lazy val $name$ = (project in file("."))
+  .aggregate(play, perf)
+  .disablePlugins(HeaderPlugin)
+
+lazy val play = (project in file("play"))
   .enablePlugins(ProjectDockerBuildPlugin)
   .enablePlay
   .enableIntegrationTests
@@ -35,6 +39,7 @@ lazy val testCommon = (project in file("testCommon"))
 
 lazy val perf = (project in file("perf"))
   .enablePlugins(ProjectDockerBuildPlugin)
+  .enableIntegrationTests
   .settings(
     libraryDependencies ++= Seq(
       cats,

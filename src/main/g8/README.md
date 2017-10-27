@@ -40,13 +40,12 @@ There is a predefined command alias `validate` that consists of
 following commands;
 
 ```bash
-";reload plugins; sbt:scalafmt::test; scalafmt::test; reload return; " +
-"sbt:scalafmt::test; scalafmt::test; test:scalafmt::test; it:scalafmt::test; " +
-"scalastyle; test:scalastyle; it:scalastyle;"
+;reload plugins; sbt:scalafmt::test; scalafmt::test; reload return; sbt:scalafmt::test; scalafmt::test; test:scalafmt::test; it:scalafmt::test; scalastyle; test:scalastyle; it:scalastyle; headerCheck; test:headerCheck; it:headerCheck
 ```
 
-You should also add `headerCheck; test:headerCheck; it:headerCheck` commands at the end
-to check your project's headers.
+To generate the headers use the following command: `sbt headerCreate test:headerCreate it:headerCreate`
+
+To format the code use: `sbt sbt:scalafmt scalafmt test:scalafmt it:scalafmt`
 
 Note: The `;reload plugins; sbt:scalafmt::test; scalafmt::test; reload return;` is for formatting
 meta-build files.

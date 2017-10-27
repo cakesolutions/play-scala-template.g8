@@ -7,8 +7,7 @@ trait StartUpHookBase {
   def run(): Unit
 }
 
-class StartUpHook @Inject()(startUpLogging: StartUpLogging)
-    extends StartUpHookBase {
+class StartUpHook @Inject()(startUpLogging: StartUpLogging) extends StartUpHookBase {
 
   run()
 

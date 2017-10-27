@@ -1,4 +1,4 @@
-import de.heikoseeberger.sbtheader.FileType
+import de.heikoseeberger.sbtheader.{FileType, HeaderPlugin}
 import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport._
 import net.cakesolutions._
 import sbt._
@@ -16,7 +16,8 @@ object ProjectPlugin extends AutoPlugin {
       CakePlatformPlugin &&
       CakeStandardsPlugin &&
       CakePublishMavenPlugin &&
-      ReleaseNotesPlugin
+      ReleaseNotesPlugin &&
+      HeaderPlugin
 
   /** @see [[sbt.AutoPlugin]] */
   override val buildSettings = Seq(
@@ -58,14 +59,13 @@ object ProjectPlugin extends AutoPlugin {
           HeaderFileType.java -> HeaderCommentStyle.CppStyleLineComment,
           HeaderFileType.scala -> HeaderCommentStyle.CppStyleLineComment
         )
-  ) ++ addCommandAlias(
-    // FIXME: headerCheck, test:headerCheck and it:headerCheck commands
-    // need to be added to the end of validate commands.
+  ) ++ headerSettings(IntegrationTest) ++ addCommandAlias(
     "validate",
     ";reload plugins; sbt:scalafmt::test; scalafmt::test; reload return; " +
       "sbt:scalafmt::test; scalafmt::test; test:scalafmt::test; " +
       "it:scalafmt::test; " +
-      "scalastyle; test:scalastyle; it:scalastyle"
+      "scalastyle; test:scalastyle; it:scalastyle; " +
+      "headerCheck; test:headerCheck; it:headerCheck"
   )
 
 }
