@@ -12,6 +12,6 @@ class StartUpHook @Inject()(startUpLogging: StartUpLogging) extends StartUpHookB
   run()
 
   def run(): Unit = {
-    startUpLogging.log()
+    startUpLogging.logAllTheThings()
   }
 }

@@ -1,7 +1,7 @@
 package $organisation_domain$.$organisation$.$name;format="norm,word"$.core
 
 import org.scalatestplus.play.PlaySpec
-import org.slf4j.LoggerFactory
+import org.slf4j.{Logger, LoggerFactory}
 import play.api.{LoggerLike, MarkerContext, Play}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -11,7 +11,7 @@ import $organisation_domain$.$organisation$.$name;format="norm,word"$.core.utils
 class StartUpLoggingSpec extends PlaySpec {
 
   object StringLogger extends LoggerLike {
-    val logger = LoggerFactory.getLogger("Test")
+    val logger: Logger = LoggerFactory.getLogger("Test")
     val logged = new StringBuilder()
 
     override def info(message: => String)(implicit mc: MarkerContext): Unit = {
@@ -33,7 +33,7 @@ class StartUpLoggingSpec extends PlaySpec {
     }
   }
 
-  val application =
+  private val application =
     GuiceApplicationBuilder()
       .overrides(
         bind[LoggerLike]
@@ -63,16 +63,22 @@ class StartUpLoggingSpec extends PlaySpec {
         loggedOutput must include(expectedParameter)
       }
 
-      sys.props.toList.sortBy(_._1).foreach {
-        case (key, value) =>
-          loggedOutput must include(s"property: \$key=\$value")
-      }
+      // If WSClient is being used, it seems to add
+      // "sun.nio.ch.bugLevel" in between sys.props
+      // being logged and us checking that they have
+      // been logged so filter it out.
+      sys.props.toList
+        .filterNot(_._1 == "sun.nio.ch.bugLevel")
+        .sortBy(_._1)
+        .foreach {
+          case (k, v) =>
+            loggedOutput must include(s"property: \$k=\$v")
+        }
 
       val configData = application.configuration.entrySet.toList.sortBy(_._1)
-      for ((key, value) <- configData) {
-        loggedOutput must include(s"configuration: \${key}=\${value.unwrapped}")
+      for ((k, v) <- configData) {
+        loggedOutput must include(s"configuration: \$k=\${v.unwrapped}")
       }
-
     }
   }
 }

@@ -8,18 +8,18 @@ import play.api.{Configuration, LoggerLike}
 /**
   * Defines standard logging of configuration, environment, properties and
   * system information.
+  * @param config Typesafe configuration object
+  * @param logger the logging adapter to which the logs will be sent
   */
 class StartUpLogging @Inject()(
   config: Configuration,
-  @Named("startUpLogging") log: LoggerLike
+  @Named("startUpLogging") logger: LoggerLike
 ) {
 
   /**
-    * Logs environment, JVM, properties and configurations data.
-    * @param config Typesafe configuration object
-    * @param log the logging adapter to which the logs will be sent
+    * Logs environment, JVM, properties and configuration data.
     */
-  def log(): Unit = {
+  def logAllTheThings(): Unit = {
     logEnvironmentData()
     logJVMData()
     logPropertyData()
@@ -29,7 +29,7 @@ class StartUpLogging @Inject()(
   private def logEnvironmentData(): Unit = {
     sys.env.toList.sortBy(_._1).foreach {
       case (key, value) =>
-        log.info(s"environment: \$key=\$value")
+        logger.info(s"environment: \$key=\$value")
     }
   }
 
@@ -37,34 +37,34 @@ class StartUpLogging @Inject()(
     val heap = ManagementFactory.getMemoryMXBean.getHeapMemoryUsage
     val nonHeap = ManagementFactory.getMemoryMXBean.getNonHeapMemoryUsage
 
-    log.info(
+    logger.info(
       "java.lang.memory.heap: committed=" +
         prettyPrintBytes(heap.getCommitted)
     )
-    log.info(
+    logger.info(
       s"java.lang.memory.heap: initial=\${prettyPrintBytes(heap.getInit)}"
     )
-    log.info(
+    logger.info(
       s"java.lang.memory.heap: maximum=\${prettyPrintBytes(heap.getMax)}"
     )
-    log.info(
+    logger.info(
       s"java.lang.memory.heap: used=\${prettyPrintBytes(heap.getUsed)}"
     )
-    log.info(
+    logger.info(
       "java.lang.memory.non-heap: committed=" +
         prettyPrintBytes(nonHeap.getCommitted)
     )
-    log.info(
+    logger.info(
       "java.lang.memory.non-heap: initial=" +
         prettyPrintBytes(nonHeap.getInit)
     )
-    log.info(
+    logger.info(
       s"java.lang.memory.non-heap: maximum=\${prettyPrintBytes(nonHeap.getMax)}"
     )
-    log.info(
+    logger.info(
       s"java.lang.memory.non-heap: used=\${prettyPrintBytes(nonHeap.getUsed)}"
     )
-    log.info(
+    logger.info(
       "runtime: available-processors=" +
         Runtime.getRuntime.availableProcessors().toString
     )
@@ -73,14 +73,14 @@ class StartUpLogging @Inject()(
   private def logPropertyData(): Unit = {
     sys.props.toList.sortBy(_._1).foreach {
       case (key, value) =>
-        log.info(s"property: \$key=\$value")
+        logger.info(s"property: \$key=\$value")
     }
   }
 
   private def logConfigurationData(config: Configuration): Unit = {
     val configData = config.entrySet.toList.sortBy(_._1)
     for ((key, value) <- configData) {
-      log.info(s"configuration: \${key}=\${value.unwrapped}")
+      logger.info(s"configuration: \$key=\${value.unwrapped}")
     }
   }
 
