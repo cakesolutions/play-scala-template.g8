@@ -1,6 +1,6 @@
 import ProjectPluginKeys._
 
-import $organisation_domain$.$organisation$.Dependencies._
+import $organisation_domain$.$organisation;format="norm,word"$.Dependencies._
 
 // FIXME: the following Settings need to be defined on a per project basis
 snapshotRepositoryResolver := None
@@ -8,7 +8,7 @@ repositoryResolver := None
 issueManagementUrl := None
 issueManagementProject := None
 
-lazy val $name$ = (project in file("."))
+lazy val $name;format="norm,word"$ = (project in file("."))
   .aggregate(play, perf)
   .disablePlugins(HeaderPlugin)
 
@@ -18,7 +18,7 @@ lazy val play = (project in file("play"))
   .enableIntegrationTests
   .settings(
     libraryDependencies ++= Seq(
-      cats,
+      Cats.core,
       guice,
       playScalatest % "it,test",
       Refined.core,
@@ -42,7 +42,7 @@ lazy val perf = (project in file("perf"))
   .enableIntegrationTests
   .settings(
     libraryDependencies ++= Seq(
-      cats,
+      Cats.core,
       GatlingDependencies.app,
       GatlingDependencies.http,
       GatlingDependencies.testkit,

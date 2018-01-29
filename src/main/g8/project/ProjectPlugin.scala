@@ -1,4 +1,4 @@
-import de.heikoseeberger.sbtheader.{FileType, HeaderPlugin}
+import de.heikoseeberger.sbtheader.{CommentStyle, FileType, HeaderPlugin}
 import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport._
 import net.cakesolutions._
 import sbt._
@@ -13,7 +13,6 @@ object ProjectPlugin extends AutoPlugin {
   /** @see [[sbt.AutoPlugin]] */
   override def requires: Plugins =
     CakeBuildInfoPlugin &&
-      CakePlatformPlugin &&
       CakeStandardsPlugin &&
       CakePublishMavenPlugin &&
       ReleaseNotesPlugin &&
@@ -22,8 +21,8 @@ object ProjectPlugin extends AutoPlugin {
   /** @see [[sbt.AutoPlugin]] */
   override val buildSettings = Seq(
     name := "$name;format="norm,word"$",
-    organization := "$organisation_domain$.$organisation$",
-    buildInfoPackage := "$organisation_domain$.$organisation$.$name;format="norm,word"$.build",
+    organization := "$organisation_domain$.$organisation;format="norm,word"$",
+    buildInfoPackage := "$organisation_domain$.$organisation;format="norm,word"$.$name;format="norm,word"$.build",
     buildInfoKeys := Seq[BuildInfoKey](
       name,
       version,
@@ -55,9 +54,9 @@ object ProjectPlugin extends AutoPlugin {
     headerMappings :=
       headerMappings.value ++
         Map(
-          FileType("sbt") -> HeaderCommentStyle.CppStyleLineComment,
-          HeaderFileType.java -> HeaderCommentStyle.CppStyleLineComment,
-          HeaderFileType.scala -> HeaderCommentStyle.CppStyleLineComment
+          FileType("sbt") -> CommentStyle.cppStyleLineComment,
+          HeaderFileType.java -> CommentStyle.cppStyleLineComment,
+          HeaderFileType.scala -> CommentStyle.cppStyleLineComment
         )
   ) ++ headerSettings(IntegrationTest) ++ addCommandAlias(
     "validate",

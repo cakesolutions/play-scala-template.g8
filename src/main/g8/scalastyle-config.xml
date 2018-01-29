@@ -83,8 +83,8 @@
             <parameter name="groups">java,scala,others,organization</parameter>
             <parameter name="group.java">javax?\..*</parameter>
             <parameter name="group.scala">scala\..*</parameter>
-            <parameter name="group.others">(?!$organisation_domain$\.$organisation$\.).*</parameter>
-            <parameter name="group.organization">$organisation_domain$\.$organisation$\..*</parameter>
+            <parameter name="group.others">(?!$organisation_domain$\.$organisation;format="norm,word"$\.).*</parameter>
+            <parameter name="group.organization">$organisation_domain$\.$organisation;format="norm,word"$\..*</parameter>
         </parameters>
     </check>
 

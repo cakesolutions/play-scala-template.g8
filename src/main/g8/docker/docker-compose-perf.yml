@@ -5,7 +5,7 @@ version: "2.1"
 
 services:
   perf:
-    image: $name$/perf
+    image: $name;format="norm,word"$/perf
     depends_on:
       play:
         condition: service_healthy

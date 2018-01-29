@@ -1,4 +1,4 @@
-# $name$
+# $name;format="cap"$
 
 ## $project_description$
 
