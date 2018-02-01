@@ -67,7 +67,7 @@ class $name;format="norm,Camel"$IntegrationTest @Inject() extends RestApiIntegra
             res
               .header("Location")
               .get shouldEqual "/assets/lib/swagger-ui/index.html?url=%2F$name;format="norm"$.yml"
-            }
+          }
       }
     }
   }

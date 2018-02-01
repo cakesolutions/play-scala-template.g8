@@ -22,15 +22,17 @@ class CoreRouter @Inject()(
 
   override def routes: Routes =
     exposeSwaggerUIAtPath(
-      assetsController, "/", "$name;format="norm"$.yml", "/docs"
-    )
-    .orElse(
-      swaggerUiRoutes(assetsController, "/", "$name;format="norm"$.yml")(executor)
-    )
-    .orElse {
-      // Base Routes
-      case GET(p"/health") => healthCheckController.health
-      case GET(p"/version") => buildInfoController.info
-    }
+      assetsController,
+      "/",
+      "$name;format="norm"$.yml",
+      "/docs"
+    ).orElse(
+        swaggerUiRoutes(assetsController, "/", "$name;format="norm"$.yml")(executor)
+      )
+      .orElse {
+        // Base Routes
+        case GET(p"/health") => healthCheckController.health
+        case GET(p"/version") => buildInfoController.info
+      }
 
 }
