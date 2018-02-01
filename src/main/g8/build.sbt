@@ -13,10 +13,12 @@ lazy val $name;format="norm,word"$ = (project in file("."))
   .disablePlugins(HeaderPlugin)
 
 lazy val play = (project in file("play"))
-  .enablePlugins(ProjectDockerBuildPlugin)
+  .enablePlugins(ProjectPlugin, ProjectDockerBuildPlugin)
   .enablePlay
   .enableIntegrationTests
   .settings(
+    name := "$name;format="norm"$",
+    buildInfoPackage := s"\${organization.value}.$name;format="norm,word"$.build",
     libraryDependencies ++= Seq(
       Cats.core,
       guice,
@@ -38,9 +40,11 @@ lazy val testCommon = (project in file("testCommon"))
   )
 
 lazy val perf = (project in file("perf"))
-  .enablePlugins(ProjectDockerBuildPlugin)
+  .enablePlugins(ProjectPlugin, ProjectDockerBuildPlugin)
   .enableIntegrationTests
   .settings(
+    name := "$name;format="norm"$-perf",
+    buildInfoPackage := s"\${organization.value}.$name;format="norm,word"$.perf.build",
     libraryDependencies ++= Seq(
       Cats.core,
       GatlingDependencies.app,

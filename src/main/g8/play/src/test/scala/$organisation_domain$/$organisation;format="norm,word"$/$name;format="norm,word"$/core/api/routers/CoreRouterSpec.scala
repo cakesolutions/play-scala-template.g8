@@ -28,40 +28,22 @@ class CoreRouterSpec extends PlaySpec {
       val Some(healthCheck) = route(application, healthRequest)
       status(healthCheck) mustBe Status.OK
     }
-    "serve API Docs" in {
-      val specsRequest = FakeRequest(GET, "/specs.yml")
+    "serve API specs" in {
+      val specsRequest = FakeRequest(GET, "/$name;format="norm"$.yml")
       val Some(specs) = route(application, specsRequest)
-      status(specs) mustBe Status.OK
-
-      val docsRequest = FakeRequest(GET, "/docs?url=/specs.yml")
-      val Some(docs) = route(application, docsRequest)
-      status(docs) mustBe Status.OK
-
-      val indexRequest = FakeRequest(GET, "/docs/index.html?url=/specs.yml")
-      val Some(index) = route(application, indexRequest)
-      status(index) mustBe Status.OK
-
-      val swaggerUIRequest = FakeRequest(GET, "/docs/swagger-ui-bundle.js")
-      val Some(swaggerUI) = route(application, swaggerUIRequest)
-      status(swaggerUI) mustBe Status.OK
+      status(specs) mustBe OK
     }
-    "redirect request to API Docs when url parameter is missing" in {
+    "redirect request to API docs when url parameter is missing" in {
       val redirectDocsRequest = FakeRequest(GET, "/docs")
       val Some(redirectDocs) = route(application, redirectDocsRequest)
-      status(redirectDocs) mustBe Status.SEE_OTHER
+      status(redirectDocs) mustBe SEE_OTHER
 
-      val redirectIndexRequest = FakeRequest(GET, "/docs/index.html")
-      val Some(redirectIndex) = route(application, redirectIndexRequest)
-      status(redirectIndex) mustBe Status.SEE_OTHER
     }
-    "redirect request to API Docs when bass route is called" in {
+    "redirect request to API docs when base route is called" in {
       val redirectDocsRequest = FakeRequest(GET, "/")
       val Some(redirectDocs) = route(application, redirectDocsRequest)
-      status(redirectDocs) mustBe Status.SEE_OTHER
+      status(redirectDocs) mustBe SEE_OTHER
 
-      val redirectIndexRequest = FakeRequest(GET, "/docs/index.html")
-      val Some(redirectIndex) = route(application, redirectIndexRequest)
-      status(redirectIndex) mustBe Status.SEE_OTHER
     }
     "respond with 404 (not found) for unknown resources" in {
       val request = FakeRequest(GET, "/unknown/resource")

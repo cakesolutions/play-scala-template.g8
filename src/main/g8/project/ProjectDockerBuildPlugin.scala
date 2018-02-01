@@ -1,3 +1,4 @@
+import com.typesafe.sbt.packager.Keys.dockerRepository
 import com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin
 import net.cakesolutions._
 import sbt._
@@ -22,5 +23,10 @@ object ProjectDockerBuildPlugin extends AutoPlugin {
         file("docker/docker-compose.yml"),
         file("docker/docker-compose-testing.yml")
       )
+  )
+
+  /** @see [[sbt.AutoPlugin]] */
+  override val projectSettings = Seq(
+    dockerRepository := Some("$organisation;format="norm"$")
   )
 }

@@ -6,7 +6,7 @@ version: "2.1"
 # **All** services within this file should be defined with healthchecks
 services:
   play:
-    image: $name;format="norm,word"$/play
+    image: $organisation;format="norm"$/$name;format="norm"$
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "http://localhost:9000/health"]
       interval: 5s
@@ -16,6 +16,7 @@ services:
       APP_HOST: "0.0.0.0"
       APP_PORT: "9000"
       APPLICATION_SECRET: change_me
+      ALLOWED_HOST: \${ALLOWED_HOST}
     ports:
       - "9000:9000"
     networks:
