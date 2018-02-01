@@ -20,10 +20,13 @@ class StartUpLogging @Inject()(
     * Logs environment, JVM, properties and configuration data.
     */
   def logAllTheThings(): Unit = {
-    logEnvironmentData()
-    logJVMData()
-    logPropertyData()
-    logConfigurationData(config)
+    val isEnabled = config.get[Boolean]("startuplogging.enabled")
+    if (isEnabled) {
+      logEnvironmentData()
+      logJVMData()
+      logPropertyData()
+      logConfigurationData(config)
+    }
   }
 
   private def logEnvironmentData(): Unit = {

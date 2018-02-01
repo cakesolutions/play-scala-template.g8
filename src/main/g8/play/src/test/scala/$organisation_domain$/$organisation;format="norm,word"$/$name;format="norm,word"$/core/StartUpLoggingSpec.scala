@@ -35,6 +35,7 @@ class StartUpLoggingSpec extends PlaySpec {
 
   private val application =
     GuiceApplicationBuilder()
+      .configure("startuplogging.enabled" -> true)
       .overrides(
         bind[LoggerLike]
           .qualifiedWith("startUpLogging")

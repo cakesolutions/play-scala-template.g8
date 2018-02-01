@@ -28,7 +28,9 @@ lazy val play = (project in file("play"))
       webjars,
       // Play WebServer client library
       ws % "it,test"
-    )
+    ),
+    envVars in Test += "STARTUPLOGGING_ENABLED" -> "false",
+    envVars in IntegrationTest += "STARTUPLOGGING_ENABLED" -> "false"
   )
   .dependsOn(testCommon % "it,test")
 
